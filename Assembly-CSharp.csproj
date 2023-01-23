@@ -41,9 +41,13 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets/PlayerHand.cs" />
      <Compile Include="Assets/CellGrid.cs" />
      <Compile Include="Assets/Cell.cs" />
+     <Compile Include="Assets/PlayerHand.cs" />
+     <Compile Include="Assets/CellGridOperator.cs" />
+     <Compile Include="Assets/Item.cs" />
+     <Compile Include="Assets/PlayerFingers.cs" />
+     <Compile Include="Assets/InputListener.cs" />
      <Folder Include="Assets" />
      <Folder Include="Assets/Materials" />
      <Folder Include="Assets/Scenes" />
