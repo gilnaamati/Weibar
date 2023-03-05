@@ -5,21 +5,30 @@ using UnityEngine;
 
 public class PourTarget : MonoBehaviour
 {
-    public static event Action<Transform> CursorEnterEvent = (x) => { };
-    public static event Action<Transform> CursorExitEvent = (x) => { };
-    public Transform pourMouth;
+    public static event Action<PourTarget> CursorEnterEvent = (x) => { };
+    public static event Action<PourTarget> CursorExitEvent = (x) => { };
     // Start is called before the first frame update
+
+    public void OnHandEnter()
+    {
+        CursorEnterEvent(this);
+    }
+
+    public void OnHandExit()
+    {
+        CursorExitEvent(this);
+    }
 
     public void OnMouseEnter()
     {
         GetComponentInChildren<SpriteRenderer>().color = Color.red;
-        CursorEnterEvent(pourMouth);
+       // CursorEnterEvent(this);
     }
 
     public void OnMouseExit()
     {
         GetComponentInChildren<SpriteRenderer>().color = Color.white;
-        CursorExitEvent(pourMouth);
+       // CursorExitEvent(this);
     }
 
 }

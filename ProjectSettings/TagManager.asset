@@ -18,8 +18,8 @@ TagManager:
   - ItemTouchCollider
   - ItemLiquid
   - ItemPourCollider
-  - 
-  - 
+  - OpenHand
+  - ClosedHand
   - 
   - 
   - 
@@ -47,4 +47,10 @@ TagManager:
     locked: 0
   - name: Liquid
     uniqueID: 4285606161
+    locked: 0
+  - name: Graphic
+    uniqueID: 1330978319
+    locked: 0
+  - name: Colliders
+    uniqueID: 3913116165
     locked: 0

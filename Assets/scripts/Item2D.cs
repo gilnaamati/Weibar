@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +7,8 @@ using UnityEngine;
 
 public class Item2D : MonoBehaviour
 {
+    public static event Action<PourTarget, float> PouringEvent = (a,b) => { };
+
     public enum ItemState
     {
         Idle,
@@ -34,7 +37,7 @@ public class Item2D : MonoBehaviour
     public Transform liquidHinge;  
     public List<Transform> bottleCornerList = new List<Transform>();
 
-    Transform curPourTar;
+    PourTarget curPourTar;
     TextMeshPro contentTM;
     SpriteRenderer sr;
     Rigidbody2D rb;
@@ -50,22 +53,38 @@ public class Item2D : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         PourTarget.CursorEnterEvent += PourTarget_CursorEnterEvent;
         PourTarget.CursorExitEvent += PourTarget_CursorExitEvent;
+        Item2D.PouringEvent += Item2D_PouringEvent;
     }
 
-    private void PourTarget_CursorEnterEvent(Transform obj)
+    private void Item2D_PouringEvent(PourTarget arg1, float arg2)
+    {
+        if (arg1 == GetComponentInChildren<PourTarget>())
+        {
+            curContents += arg2;
+        }
+    }
+
+    private void PourTarget_CursorEnterEvent(PourTarget obj)
     {
         if (itemState == ItemState.Held)
         {
             curPourTar = obj;
             StartCoroutine(SetStateTrans(ItemState.Pour, pourRotationDur));
         }
+        else if (itemState == ItemState.Pour || nextItemState == ItemState.Pour)
+        {
+            curPourTar = obj;
+        }
     }
 
-    private void PourTarget_CursorExitEvent(Transform obj)
+    private void PourTarget_CursorExitEvent(PourTarget obj)
     {
         if (itemState != ItemState.Idle)
         {
-            StartCoroutine(SetStateTrans(ItemState.Held, straightRotationDur));
+            if (curPourTar == obj)
+            {
+                StartCoroutine(SetStateTrans(ItemState.Held, straightRotationDur));
+            } 
         }
     }
 
@@ -94,7 +113,7 @@ public class Item2D : MonoBehaviour
                 float r = ( rotRange.x + (rotRange.y - rotRange.x) * BottlePourCurve.Evaluate((1 - (curContents / maxContents)))) * pourDirection;
                 tarPos = MouseData2D.Inst.mouseWorldPos - handle.localPosition;
                 imageRotTar.localEulerAngles = new Vector3(0, 0,r);
-                curContents = Mathf.Max(0, curContents - PourRate * Time.deltaTime);
+                
                 break;
             case ItemState.Trans:
                 sr.color = Color.black;
@@ -114,9 +133,9 @@ public class Item2D : MonoBehaviour
                 transform.position = Vector3.Lerp(transform.position, tarPos, dragLerp * Time.fixedDeltaTime);
                 break;
             case ItemState.Pour:
-              
+                curContents = Mathf.Max(0, curContents - PourRate * Time.fixedDeltaTime);
+                PouringEvent(curPourTar, PourRate * Time.fixedDeltaTime);
                 transform.position = Vector3.Lerp(transform.position, tarPos, dragLerp * Time.fixedDeltaTime);
-                contentTM.text = Mathf.Floor(curContents).ToString();
                 break;
             case ItemState.Idle:  
                 break;
@@ -135,7 +154,11 @@ public class Item2D : MonoBehaviour
         liquidHinge.position = new Vector3(liquidHinge.position.x,
            r, liquidHinge.position.z);
         liquid.position = liquidHinge.position;
+        contentTM.text = Mathf.Floor(curContents).ToString();
+
     }
+
+ 
 
     void SetStateHeld()
     {
@@ -172,7 +195,7 @@ public class Item2D : MonoBehaviour
         if (itemState == ItemState.Held && nextItemState == ItemState.Pour)
         {
             itemState = ItemState.Trans;
-            pourDirection = -Mathf.Sign(curPourTar.position.x - MouseData2D.Inst.mouseWorldPos.x);
+            pourDirection = -Mathf.Sign(curPourTar.transform.position.x - MouseData2D.Inst.mouseWorldPos.x);
 
             float targetRot = (rotRange.x + (rotRange.y - rotRange.x) * BottlePourCurve.Evaluate((1 - (curContents / maxContents)))) * pourDirection;
             float startRot = imageRotTar.localEulerAngles.z;
