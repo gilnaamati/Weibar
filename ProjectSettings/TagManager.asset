@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - PourCollider
+  - PlayerCursor
   layers:
   - Default
   - TransparentFX
@@ -20,7 +21,7 @@ TagManager:
   - ItemPourCollider
   - OpenHand
   - ClosedHand
-  - 
+  - PlayerCursor
   - 
   - 
   - 

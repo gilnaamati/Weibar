@@ -72,6 +72,8 @@
     <Compile Include="Assets\scripts\Utils.cs" />
     <Compile Include="Assets\ItemHandler.cs" />
     <Compile Include="Assets\MaskHandler.cs" />
+    <Compile Include="Assets\ItemBase.cs" />
+    <Compile Include="Assets\ItemVisuals.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

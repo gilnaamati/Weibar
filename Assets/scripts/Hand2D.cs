@@ -6,12 +6,12 @@ public class Hand2D : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        collision.GetComponentInParent<PourTarget>().OnHandEnter();
+       // collision.GetComponentInParent<PourTarget>().OnHandEnter();
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        collision.GetComponentInParent<PourTarget>().OnHandExit();
+       // collision.GetComponentInParent<PourTarget>().OnHandExit();
     }
 
 
