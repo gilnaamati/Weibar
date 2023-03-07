@@ -14,7 +14,7 @@ public class ItemBase : MonoBehaviour
 
     public ItemTouchState itemTouchState;
     
-    Rigidbody2D rb;
+    
     public GameObject debugMarker;
     public static event Action<ItemBase> HoverEnterEvent = (x) => { };
     public static event Action<ItemBase> HoverExitEvent = (x) => { };
@@ -22,7 +22,7 @@ public class ItemBase : MonoBehaviour
 
     private void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
+        
         SetStateNoHover();
     }
 
@@ -40,22 +40,20 @@ public class ItemBase : MonoBehaviour
 
     public void SetStateNoHover()
     {
+        itemTouchState = ItemTouchState.NoHover;
         debugMarker.GetComponent<SpriteRenderer>().color = Color.white;
     }
 
     public void SetStateHover()
     {
+        itemTouchState = ItemTouchState.Hover;
         debugMarker.GetComponent<SpriteRenderer>().color = Color.red;
     }
 
     public void SetStateTopHover()
     {
+        itemTouchState = ItemTouchState.TopHover;
         debugMarker.GetComponent<SpriteRenderer>().color = Color.blue;
     }
-
-    
-
-
-
 
 }

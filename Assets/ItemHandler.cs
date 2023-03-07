@@ -15,12 +15,39 @@ public class ItemHandler : MonoBehaviour
 
     public List<ItemBase> itemHoverList = new List<ItemBase>();
 
+    public PickupModule currentlyHeldModule;
+    
     private void Awake()
     {
         SetItemSortVisuals();
         ItemBase.HoverEnterEvent += ItemBase_HoverEnterEvent;
         ItemBase.HoverExitEvent += ItemBase_HoverExitEvent;
+        MouseData2D.MouseDownEvent += MouseData2DOnMouseDownEvent;
+        MouseData2D.MouseUpEvent += MouseData2DOnMouseUpEvent;
 
+    }
+
+    private void MouseData2DOnMouseUpEvent()
+    {
+        if (currentlyHeldModule != null)
+        {
+            currentlyHeldModule.SetStateIdle();
+            currentlyHeldModule = null;
+        }
+    }
+
+    private void MouseData2DOnMouseDownEvent()
+    {
+        if (itemHoverList.Count > 0)
+        {
+            var item = itemHoverList.First(x => x.itemTouchState == ItemBase.ItemTouchState.TopHover);
+            var module = item.GetComponent<PickupModule>();
+            if (module != null)
+            {
+                module.SetStateHeld();
+                currentlyHeldModule = module;
+            }
+        }
     }
 
     private void ItemBase_HoverExitEvent(ItemBase obj)
@@ -29,6 +56,7 @@ public class ItemHandler : MonoBehaviour
         {
             itemHoverList.Remove(obj);
             obj.SetStateNoHover();
+            UpdateHoverList();
         }
     }
     private void ItemBase_HoverEnterEvent(ItemBase obj)
@@ -37,12 +65,28 @@ public class ItemHandler : MonoBehaviour
         {
             itemHoverList.Add(obj);
             obj.SetStateHover();
-        }   
+            UpdateHoverList();
+            
+        }
     }
 
+    void CheckForPour(ItemBase targetItem)
+    {
+        if (currentlyHeldModule != null)
+        {
+            var pourSource = currentlyHeldModule.GetComponent<PourModule>();
+            var pourTarget = targetItem.GetComponent<PourTargetModule>();
+
+            if (pourSource != null && pourTarget != null)
+            {
+                pourSource.SetStatePouring();
+            }
+        }
+    }
+    
     private void FixedUpdate()
     {
-        UpdateHoverList();
+        
     }
 
     void UpdateHoverList()
@@ -51,6 +95,7 @@ public class ItemHandler : MonoBehaviour
         foreach (var v in itemHoverList) v.SetStateHover();
         var topHoverItem = itemHoverList.OrderByDescending(x => x.GetComponentInChildren<ItemVisuals>().sortInd).First();
         topHoverItem.SetStateTopHover();
+        CheckForPour(topHoverItem);
     }
 
     void SetItemSortVisuals()
