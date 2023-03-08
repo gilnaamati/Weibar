@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class PickupModule : MonoBehaviour
 {
-    
+    public event Action SetStateHeldEvent = () => { };
+    public event Action SetStateIdleEvent = () => { };
     public enum PickupState
     {
         Idle,
@@ -36,7 +37,7 @@ public class PickupModule : MonoBehaviour
     {
         if (pickupState == PickupState.Held)
         {
-            transform.position = Vector3.Lerp(transform.position, MouseData2D.Inst.mouseWorldPos,
+            transform.position = Vector3.Lerp(transform.position, MouseData2D.Inst.mouseWorldPos - handle.localPosition,
                 Time.fixedDeltaTime * dragLerp);
         }
     }

@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 101956260}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.63, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -235,6 +235,37 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_renderer: {fileID: 1948399477}
   m_maskType: 0
+--- !u!1 &2142244460
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2142244461}
+  m_Layer: 0
+  m_Name: PourTargetHandle
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2142244461
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2142244460}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.16, y: -1.78, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3651297706436705943}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6080137034734996314
 GameObject:
   m_ObjectHideFlags: 0
@@ -264,6 +295,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8751194402831587918}
+  - {fileID: 2142244461}
   m_Father: {fileID: 8045155998077127689}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -488,7 +520,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pickupState: 0
-  handle: {fileID: 0}
+  handle: {fileID: 101956261}
   dragLerp: 20
 --- !u!114 &1063466775
 MonoBehaviour:
@@ -503,13 +535,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pourDummy: {fileID: 8751194402831587918}
-  pourState: 0
+  visuals: {fileID: 8045155996868882378}
+  pourHandle: {fileID: 2142244461}
   curAngle: 0
-  rotateSpeed: 30
-  pourRate: 10
-  angleWhenEmpty: 160
-  angleWhenFull: 60
-  anglePourMargin: 1
+  pourRotateSpeed: 500
+  heldRotateSpeed: 1000
+  pourRate: 50
+  angleWhenEmpty: 130
+  angleWhenFull: 50
+  anglePourMargin: 5
+  visualsLerp: 12
+  pourPosLerp: 10
+  pourState: 0
 --- !u!114 &1063466774
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1022,7 +1059,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8751194402831587918
 Transform:
   m_ObjectHideFlags: 0

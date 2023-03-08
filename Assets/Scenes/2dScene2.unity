@@ -1572,6 +1572,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 196644072}
     m_Modifications:
+    - target: {fileID: 1063466775, guid: 90d94f7549067a8469caa9aa70926d75, type: 3}
+      propertyPath: pourRate
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 1063466775, guid: 90d94f7549067a8469caa9aa70926d75, type: 3}
+      propertyPath: rotateSpeed
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 1063466775, guid: 90d94f7549067a8469caa9aa70926d75, type: 3}
+      propertyPath: visualsLerp
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1063466775, guid: 90d94f7549067a8469caa9aa70926d75, type: 3}
+      propertyPath: anglePourMargin
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 8045155998077127689, guid: 90d94f7549067a8469caa9aa70926d75, type: 3}
       propertyPath: m_RootOrder
       value: 0

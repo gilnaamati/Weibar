@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -5,6 +6,8 @@ using UnityEngine;
 
 public class ItemHandler : MonoBehaviour
 {
+    public static event Action<PickupModule, ItemBase> ItemInteractionEvent = (xxx, yyy) => { };
+
     public List<Item2D> itemList = new List<Item2D>();
 
     int curMaskLayer = 0;
@@ -17,6 +20,8 @@ public class ItemHandler : MonoBehaviour
 
     public PickupModule currentlyHeldModule;
     
+
+
     private void Awake()
     {
         SetItemSortVisuals();
@@ -66,7 +71,6 @@ public class ItemHandler : MonoBehaviour
             itemHoverList.Add(obj);
             obj.SetStateHover();
             UpdateHoverList();
-            
         }
     }
 
@@ -77,9 +81,10 @@ public class ItemHandler : MonoBehaviour
             var pourSource = currentlyHeldModule.GetComponent<PourModule>();
             var pourTarget = targetItem.GetComponent<PourTargetModule>();
 
-            if (pourSource != null && pourTarget != null)
+            if (pourSource != null)
             {
-                pourSource.SetStatePouring();
+                if (pourTarget != null) pourSource.SetStatePouring(pourTarget);
+                else pourSource.SetStateHeld();
             }
         }
     }
@@ -91,11 +96,17 @@ public class ItemHandler : MonoBehaviour
 
     void UpdateHoverList()
     {
-        if (itemHoverList.Count == 0) return;
+        if (itemHoverList.Count == 0)
+        {
+            ItemInteractionEvent(currentlyHeldModule, null);
+            return;
+        }
         foreach (var v in itemHoverList) v.SetStateHover();
         var topHoverItem = itemHoverList.OrderByDescending(x => x.GetComponentInChildren<ItemVisuals>().sortInd).First();
         topHoverItem.SetStateTopHover();
-        CheckForPour(topHoverItem);
+        ItemInteractionEvent(currentlyHeldModule, topHoverItem);
+
+        // CheckForPour(topHoverItem);
     }
 
     void SetItemSortVisuals()
