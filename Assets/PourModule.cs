@@ -29,10 +29,13 @@ public class PourModule : MonoBehaviour
     public float anglePourMargin = 1;
     public float visualsLerp = 20;
     public float pourPosLerp = 10;
+    public float dropOffset = 2;
+    public float dropPushForce = 10;
     float curVisualsAngle;
     float curPourAngle;
     float curPourDeltaAngle;
     float curHeldDeltaAngle;
+
     Vector3 orgHandlePos;
     private ContentModule cm;
     private void Awake()
@@ -58,18 +61,20 @@ public class PourModule : MonoBehaviour
         if (arg2.GetComponent<PourTargetModule>() == null)
         {
             if (pourState == PourState.Pouring) SetStateHeld();
-            return;
         }
-
-        if (arg2.GetComponent<PourTargetModule>() != null)
+        else
         {
             SetStatePouring(arg2.GetComponent<PourTargetModule>());
         }
     }
 
+   
+
     private void PourModule_SetStateIdleEvent()
     {
-       
+        if (pourState != PourState.Pouring) curPourTarget = null;
+
+         SetStateIdle();
     }
 
     private void PourModule_SetStateHeldEvent()
@@ -85,11 +90,28 @@ public class PourModule : MonoBehaviour
     { 
         if (pourState == PourState.Pouring) UpdatePour();
         else if (pourState == PourState.Held) UpdateHeld();
+        else if (pourState == PourState.Idle) UpdateIdle();
         pm.handle.localPosition = Vector3.Lerp(pm.handle.localPosition, pourHandlePosTar, pourPosLerp * Time.fixedDeltaTime);
         UpdateAngle();
         UpdateVisuals();
     }
 
+    void UpdateIdle()
+    {
+        UpdateHeld();
+        if (curPourTarget != null)
+        {
+            if (Mathf.Abs(curPourTarget.transform.position.x - transform.position.x) < dropOffset)
+            {
+                GetComponent<Rigidbody2D>().AddForce(Vector3.right * dropPushForce * curPourAngle * Time.fixedDeltaTime, ForceMode2D.Force);
+            }
+            else
+            {
+                curPourTarget = null;
+            }
+        }
+      
+    }
     void UpdatePour()
     {
         
@@ -122,7 +144,12 @@ public class PourModule : MonoBehaviour
 
     void TransferLiquids()
     {
-        cm.ChangeContentAmount(-pourRate*Time.fixedDeltaTime);
+        var transferAmount = Mathf.Min(cm.curContents, pourRate * Time.fixedDeltaTime);
+        cm.ChangeContentAmount(-transferAmount);
+        if (curPourTarget != null)
+        {
+            curPourTarget.RecieveLiquids(transferAmount);
+        }
     }
 
     float pourDir = 1;
@@ -136,19 +163,20 @@ public class PourModule : MonoBehaviour
         {
             if (Math.Abs(curAngle) < 30) pourDir = newPourDir;
         }
-      
         pourHandlePosTar = new Vector3(pourHandle.localPosition.x * pourDir, pourHandle.localPosition.y, pm.handle.localPosition.z);
         pourState = PourState.Pouring;
     }
 
     public void SetStateHeld()
     {
+        curPourTarget = null;
         pourHandlePosTar = orgHandlePos;
         pourState = PourState.Held;
     }
 
     public void SetStateIdle()
     {
+
         pourHandlePosTar = orgHandlePos;
         pourState = PourState.Idle;
     }

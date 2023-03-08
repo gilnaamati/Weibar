@@ -499,14 +499,14 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
+  m_LinearDrag: 0.25
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 5
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &1063466773
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -543,9 +543,11 @@ MonoBehaviour:
   pourRate: 50
   angleWhenEmpty: 130
   angleWhenFull: 50
-  anglePourMargin: 5
+  anglePourMargin: 30
   visualsLerp: 12
   pourPosLerp: 10
+  dropOffset: 2
+  dropPushForce: 5
   pourState: 0
 --- !u!114 &1063466774
 MonoBehaviour:

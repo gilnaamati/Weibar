@@ -47,6 +47,7 @@ public class PickupModule : MonoBehaviour
         pickupState = PickupState.Held;
         rb.bodyType = RigidbodyType2D.Kinematic;
         GetComponentInChildren<TouchCollidersHandlers>().ToggleColliders(false);
+        SetStateHeldEvent();
     }
 
     public void SetStateIdle()
@@ -54,6 +55,7 @@ public class PickupModule : MonoBehaviour
         pickupState = PickupState.Idle;
         rb.bodyType = RigidbodyType2D.Dynamic;
         GetComponentInChildren<TouchCollidersHandlers>().ToggleColliders(true);
+        SetStateIdleEvent();
     }
     
   

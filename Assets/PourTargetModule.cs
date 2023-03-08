@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class PourTargetModule : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    ContentModule cm;
+
+    private void Awake()
     {
-        
+        cm = GetComponent<ContentModule>();
     }
 
-    // Update is called once per frame
-    void Update()
+    // Start is called before the first frame update
+    public void RecieveLiquids(float amount)
     {
-        
+        cm.ChangeContentAmount(amount);
     }
 }
