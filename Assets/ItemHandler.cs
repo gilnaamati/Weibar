@@ -25,6 +25,7 @@ public class ItemHandler : MonoBehaviour
     private void Awake()
     {
         SetItemSortVisuals();
+        SetItemMaskIndexes();
         ItemBase.HoverEnterEvent += ItemBase_HoverEnterEvent;
         ItemBase.HoverExitEvent += ItemBase_HoverExitEvent;
         MouseData2D.MouseDownEvent += MouseData2DOnMouseDownEvent;
@@ -74,21 +75,6 @@ public class ItemHandler : MonoBehaviour
         }
     }
 
-    void CheckForPour(ItemBase targetItem)
-    {
-        if (currentlyHeldModule != null)
-        {
-            var pourSource = currentlyHeldModule.GetComponent<PourModule>();
-            var pourTarget = targetItem.GetComponent<PourTargetModule>();
-
-            if (pourSource != null)
-            {
-                if (pourTarget != null) pourSource.SetStatePouring(pourTarget);
-                else pourSource.SetStateHeld();
-            }
-        }
-    }
-    
     private void FixedUpdate()
     {
         
@@ -106,7 +92,7 @@ public class ItemHandler : MonoBehaviour
         topHoverItem.SetStateTopHover();
         ItemInteractionEvent(currentlyHeldModule, topHoverItem);
 
-        // CheckForPour(topHoverItem);
+
     }
 
     void SetItemSortVisuals()
@@ -122,10 +108,10 @@ public class ItemHandler : MonoBehaviour
 
     void SetItemMaskIndexes()
     {
-        itemList = GetComponentsInChildren<Item2D>().ToList();
-        foreach (var v in itemList)
+        var maskrList = GetComponentsInChildren<MaskHandler>().ToList();
+        foreach (var v in maskrList)
         {
-            v.GetComponent<MaskHandler>().SetMask(curMaskLayer);
+            v.SetMask(curMaskLayer);
             curMaskLayer++;
         }
        

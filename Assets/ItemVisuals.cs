@@ -6,6 +6,7 @@ public class ItemVisuals : MonoBehaviour
 {
     SpriteRenderer sr;
     public int sortInd;
+    public SpriteRenderer mainRenderer;
     private void Awake()
     {
        
@@ -13,9 +14,9 @@ public class ItemVisuals : MonoBehaviour
 
     public void SetSortingLayerIndex (int i)
     {
-        GetComponentInChildren<SpriteRenderer>();
+
         sortInd = i;
-        GetComponentInChildren<SpriteRenderer>().sortingOrder = i;
+        mainRenderer.sortingOrder = i;
     }
 
 

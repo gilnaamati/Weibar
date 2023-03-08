@@ -92,6 +92,7 @@ public class PourModule : MonoBehaviour
         else if (pourState == PourState.Held) UpdateHeld();
         else if (pourState == PourState.Idle) UpdateIdle();
         pm.handle.localPosition = Vector3.Lerp(pm.handle.localPosition, pourHandlePosTar, pourPosLerp * Time.fixedDeltaTime);
+       
         UpdateAngle();
         UpdateVisuals();
     }
@@ -140,6 +141,7 @@ public class PourModule : MonoBehaviour
         curVisualsAngle = Mathf.LerpAngle(curVisualsAngle, curAngle, visualsLerp * Time.fixedDeltaTime);
         visuals.eulerAngles = new Vector3(0, 0, curVisualsAngle);
         pourDummy.eulerAngles = new Vector3(0, 0, curAngle);
+        if (curAngle != 0) cm.UpdateVisuals();
     }
 
     void TransferLiquids()

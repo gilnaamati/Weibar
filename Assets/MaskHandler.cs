@@ -12,10 +12,13 @@ public class MaskHandler : MonoBehaviour
 
     public void SetMask(int maskLayer_)
     {
+     
         maskSortingIndex = maskLayer_;
-        LiquidRenderer.sortingOrder = maskLayer_ +1;
-        liquidMask.backSortingOrder = maskLayer_;
-        liquidMask.frontSortingOrder = maskLayer_ + 1;
+        
+        LiquidRenderer.sortingOrder = maskSortingIndex;
+        liquidMask.frontSortingOrder = maskSortingIndex;
+        liquidMask.backSortingOrder = maskSortingIndex-1;
+       
     }
 
 }
