@@ -17,8 +17,14 @@ public class PourModule : MonoBehaviour
     public Transform visuals;
 
     public Transform pourHandle;
-    
+
+    public Transform pourLiquidVisuals;
+
+    public Transform pourPointRight, pourPointLeft;
+
     PickupModule pm;
+
+
 
     public float curAngle;
     public float pourRotateSpeed;
@@ -26,11 +32,13 @@ public class PourModule : MonoBehaviour
     public float pourRate = 10;
     public float angleWhenEmpty;
     public float angleWhenFull;
-    public float anglePourMargin = 1;
+    public float angleRotateMargin = 1;
+    public float anglePourMargin = 30;
     public float visualsLerp = 20;
     public float pourPosLerp = 10;
     public float dropOffset = 2;
     public float dropPushForce = 10;
+
     float curVisualsAngle;
     float curPourAngle;
     float curPourDeltaAngle;
@@ -68,8 +76,6 @@ public class PourModule : MonoBehaviour
         }
     }
 
-   
-
     private void PourModule_SetStateIdleEvent()
     {
         if (pourState != PourState.Pouring) curPourTarget = null;
@@ -94,6 +100,7 @@ public class PourModule : MonoBehaviour
         pm.handle.localPosition = Vector3.Lerp(pm.handle.localPosition, pourHandlePosTar, pourPosLerp * Time.fixedDeltaTime);
        
         UpdateAngle();
+        TestForLiquidTransfer();
         UpdateVisuals();
     }
 
@@ -111,19 +118,18 @@ public class PourModule : MonoBehaviour
                 curPourTarget = null;
             }
         }
-      
     }
     void UpdatePour()
     {
         
-        if (Mathf.Abs(curPourDeltaAngle) >= anglePourMargin) curAngle += pourRotateSpeed * Mathf.Sign(curPourDeltaAngle) * Time.fixedDeltaTime;
+        if (Mathf.Abs(curPourDeltaAngle) >= angleRotateMargin) curAngle += pourRotateSpeed * Mathf.Sign(curPourDeltaAngle) * Time.fixedDeltaTime;
         else curAngle = curPourAngle; 
     }
 
     void UpdateHeld()
     {
 
-        if (Mathf.Abs(curHeldDeltaAngle) >= anglePourMargin) curAngle += heldRotateSpeed * Mathf.Sign(curHeldDeltaAngle) * Time.fixedDeltaTime;
+        if (Mathf.Abs(curHeldDeltaAngle) >= angleRotateMargin) curAngle += heldRotateSpeed * Mathf.Sign(curHeldDeltaAngle) * Time.fixedDeltaTime;
         else curAngle = 0;
     }
 
@@ -132,7 +138,7 @@ public class PourModule : MonoBehaviour
         curPourAngle = Mathf.Lerp(angleWhenEmpty, angleWhenFull, cm.curContents / cm.maxContents)*pourDir;
         curHeldDeltaAngle = Mathf.DeltaAngle(curAngle, 0);
         curPourDeltaAngle = Mathf.DeltaAngle(curAngle, curPourAngle);
-        if (Mathf.Abs(curPourDeltaAngle) < anglePourMargin) TransferLiquids();
+       
     }
 
     void UpdateVisuals()
@@ -143,7 +149,25 @@ public class PourModule : MonoBehaviour
         pourDummy.eulerAngles = new Vector3(0, 0, curAngle);
         if (curAngle != 0) cm.UpdateVisuals();
     }
+    
+    void TestForLiquidTransfer()
+    {
+        if (Mathf.Abs(curPourDeltaAngle) < anglePourMargin)
+        {
+            if (cm.curContents > 0)
+            {
+                pourLiquidVisuals.position = pourDir == 1 ? pourPointLeft.position : pourPointRight.position;
 
+                pourLiquidVisuals.localScale = new Vector3(pourDir, 1, 1);
+                pourLiquidVisuals.gameObject.SetActive(true);
+                TransferLiquids();
+                return;
+            }
+        }
+        pourLiquidVisuals.gameObject.SetActive(false);   
+    }
+
+    
     void TransferLiquids()
     {
         var transferAmount = Mathf.Min(cm.curContents, pourRate * Time.fixedDeltaTime);

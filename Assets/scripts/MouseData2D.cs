@@ -27,8 +27,7 @@ public class MouseData2D : MonoBehaviour
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
-        {
-            Debug.Log(Time.time.ToString());
+        {  
             MouseDownEvent();
         }
 
