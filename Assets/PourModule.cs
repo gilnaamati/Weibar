@@ -24,8 +24,6 @@ public class PourModule : MonoBehaviour
 
     PickupModule pm;
 
-
-
     public float curAngle;
     public float pourRotateSpeed;
     public float heldRotateSpeed;
@@ -72,7 +70,11 @@ public class PourModule : MonoBehaviour
         }
         else
         {
-            SetStatePouring(arg2.GetComponent<PourTargetModule>());
+            if (cm.curContentsAmount > 0)
+            {
+                SetStatePouring(arg2.GetComponent<PourTargetModule>());
+            }
+           
         }
     }
 
@@ -100,7 +102,7 @@ public class PourModule : MonoBehaviour
         pm.handle.localPosition = Vector3.Lerp(pm.handle.localPosition, pourHandlePosTar, pourPosLerp * Time.fixedDeltaTime);
        
         UpdateAngle();
-        TestForLiquidTransfer();
+        AttemptToTransferContents();
         UpdateVisuals();
     }
 
@@ -135,7 +137,7 @@ public class PourModule : MonoBehaviour
 
     void UpdateAngle()
     {
-        curPourAngle = Mathf.Lerp(angleWhenEmpty, angleWhenFull, cm.curContents / cm.maxContents)*pourDir;
+        curPourAngle = Mathf.Lerp(angleWhenEmpty, angleWhenFull, cm.curContentsAmount / cm.maxContents)*pourDir;
         curHeldDeltaAngle = Mathf.DeltaAngle(curAngle, 0);
         curPourDeltaAngle = Mathf.DeltaAngle(curAngle, curPourAngle);
        
@@ -150,32 +152,42 @@ public class PourModule : MonoBehaviour
         if (curAngle != 0) cm.UpdateVisuals();
     }
     
-    void TestForLiquidTransfer()
+    void AttemptToTransferContents()
     {
         if (Mathf.Abs(curPourDeltaAngle) < anglePourMargin)
         {
-            if (cm.curContents > 0)
+            if (cm.curContentsAmount > 0)
             {
-                pourLiquidVisuals.position = pourDir == 1 ? pourPointLeft.position : pourPointRight.position;
-
-                pourLiquidVisuals.localScale = new Vector3(pourDir, 1, 1);
-                pourLiquidVisuals.gameObject.SetActive(true);
-                TransferLiquids();
+                UpdatePourVisuals(true);
+                TransferContents();
                 return;
             }
         }
-        pourLiquidVisuals.gameObject.SetActive(false);   
+        UpdatePourVisuals(false);
     }
 
-    
-    void TransferLiquids()
+    void TransferContents()
     {
-        var transferAmount = Mathf.Min(cm.curContents, pourRate * Time.fixedDeltaTime);
-        cm.ChangeContentAmount(-transferAmount);
+        var transferAmount = Mathf.Min(cm.curContentsAmount, pourRate * Time.fixedDeltaTime);
+        var removeList = cm.RemoveContents(transferAmount);
         if (curPourTarget != null)
         {
-            curPourTarget.RecieveLiquids(transferAmount);
+            curPourTarget.RecieveLiquids(removeList);
         }
+    }
+
+    void UpdatePourVisuals(bool showVisuals)
+    {
+        if (!showVisuals)
+        {
+            pourLiquidVisuals.gameObject.SetActive(false);
+            return;
+        }
+        pourLiquidVisuals.gameObject.SetActive(true);
+        pourLiquidVisuals.position = pourDir == 1 ? pourPointLeft.position : pourPointRight.position;
+        pourLiquidVisuals.localScale = new Vector3(pourDir, 1, 1);
+        var l = pourLiquidVisuals.GetComponentsInChildren<SpriteRenderer>();
+        foreach (var v in l) v.color = cm.curContentsColor;
     }
 
     float pourDir = 1;
@@ -202,7 +214,6 @@ public class PourModule : MonoBehaviour
 
     public void SetStateIdle()
     {
-
         pourHandlePosTar = orgHandlePos;
         pourState = PourState.Idle;
     }

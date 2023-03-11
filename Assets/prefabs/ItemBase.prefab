@@ -190,8 +190,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 5
-  m_fontSizeBase: 5
+  m_fontSize: 1
+  m_fontSizeBase: 1
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -556,7 +556,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3112992959012278646}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.12, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1017,7 +1017,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6420359292131703172
 Transform:
   m_ObjectHideFlags: 0
@@ -1556,13 +1556,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46b7ff78af37646a7903c07d4f68e4aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  contentList:
+  - liquid: {fileID: 11400000, guid: e07a5fe551125b04ab457b3ec2f3dadb, type: 2}
+    amount: 250
   itemCornerList:
   - {fileID: 4424848573456380838}
   - {fileID: 598880060894156551}
   - {fileID: 5515529927582825439}
   - {fileID: 896352460805819033}
   liquidVisuals: {fileID: 7968236889686780135}
-  curContents: 400
+  curContentsColor: {r: 0, g: 0, b: 0, a: 0}
+  curContentsAmount: 0
   maxContents: 500
 --- !u!114 &5847789136615909001
 MonoBehaviour:
@@ -1605,7 +1609,7 @@ Transform:
   m_GameObject: {fileID: 8045155998103237835}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.092, y: 0.298, z: 0}
-  m_LocalScale: {x: 2.7059, y: 2.7059, z: 2.7059}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8045155998530120990}

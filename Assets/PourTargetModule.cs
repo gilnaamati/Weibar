@@ -12,8 +12,8 @@ public class PourTargetModule : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    public void RecieveLiquids(float amount)
+    public void RecieveLiquids(List<ContentPart> receiveList)
     {
-        cm.ChangeContentAmount(amount);
+        cm.AddContents(receiveList);
     }
 }

@@ -4,21 +4,38 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 
+[Serializable]
+public class ContentPart
+{
+    public LiquidData liquid;
+    public float amount;
+
+    public ContentPart(float a, LiquidData ld)
+    {
+        liquid = ld;
+        amount = a;
+    }
+}
+
 public class ContentModule : MonoBehaviour
 {
-    public event Action<ContentModule, float> FluidOverflowEvent = (xxx, yyy) => { };
+    public event Action<ContentModule, List<ContentPart>> FluidOverflowEvent = (xxx, yyy) => { };
+
+    public List<ContentPart> contentList = new List<ContentPart>();
 
     public List<Transform> itemCornerList = new List<Transform>();
     public Transform liquidVisuals;
     TextMeshPro contentTM;
 
-    public float curContents;
+    public Color curContentsColor;
+
+    public float curContentsAmount;
     public float maxContents;
 
     private void Awake()
     {
         contentTM = GetComponentInChildren<TextMeshPro>();
-        ChangeContentAmount(0);
+        UpdateCurContents();
     }
 
     private void FixedUpdate()
@@ -26,13 +43,52 @@ public class ContentModule : MonoBehaviour
         UpdateVisuals();
     }
 
-    public void ChangeContentAmount(float x)
+    public List<ContentPart> RemoveContents(float a)
     {
-        curContents += x;
-        if (curContents > maxContents) FluidOverflowEvent(this, curContents - maxContents);
-        curContents = Mathf.Clamp(curContents, 0, maxContents);
-        contentTM.text = Mathf.Floor(curContents).ToString();
+        var r = a / curContentsAmount;
+        var contentRemovalList = new List<ContentPart>();
+        foreach (var v in contentList)
+        {
+            var removeAmount = v.amount * r;
+            v.amount -= removeAmount;
+            contentRemovalList.Add(new ContentPart(removeAmount, v.liquid));
+        }
+        UpdateCurContents();
+        return contentRemovalList;
+    }
+
+    public void AddContents( List<ContentPart> contentsAdded)
+    {
+        foreach (var v in contentsAdded) contentList.Add(v);
+        ConsolidateContents();
+        UpdateCurContents();
+    }
+
+    void UpdateCurContents()
+    {
+        curContentsAmount = contentList.Sum(x => x.amount);
+        if (curContentsAmount > maxContents)
+        {
+            var overflowcontents = RemoveContents(curContentsAmount - maxContents);
+            FluidOverflowEvent(this, overflowcontents);
+        }
+        contentTM.text = Mathf.Floor(curContentsAmount).ToString();
         UpdateVisuals();
+    }
+
+
+    void ConsolidateContents()
+    {
+        List<ContentPart> newContentList = new List<ContentPart>();
+        foreach (var v in contentList)
+        {
+            if (newContentList.Count(x=>x.liquid == v.liquid) == 0)
+            {
+                var partsSum = contentList.Where(x => x.liquid == v.liquid).Sum(x => x.amount);
+                newContentList.Add(new ContentPart(partsSum, v.liquid));
+            }
+        }
+        contentList = newContentList.ToList();
     }
 
     public void UpdateVisuals()
@@ -40,10 +96,29 @@ public class ContentModule : MonoBehaviour
         var x = itemCornerList.Average(x => x.position.x);
         var maxY = itemCornerList.Max(x => x.position.y);
         var minY = itemCornerList.Min(x => x.position.y);
-        var y = Mathf.Lerp(minY, maxY, curContents / maxContents);
+        var y = Mathf.Lerp(minY, maxY, curContentsAmount / maxContents);
         liquidVisuals.position = new Vector3(x, y, liquidVisuals.position.z);
+        UpdateContentsColor();
 
     }
+
+    void UpdateContentsColor()
+    {
+        curContentsColor = new Color(0, 0, 0, 0);
+
+        foreach (var v in contentList)
+        {
+            var r = (v.amount / curContentsAmount);
+            curContentsColor.a += v.liquid.liquidColor.a * r ;
+            curContentsColor.r += v.liquid.liquidColor.r * r ;
+            curContentsColor.b += v.liquid.liquidColor.b * r;
+            curContentsColor.g += v.liquid.liquidColor.g * r;
+        }
+
+        var l = liquidVisuals.gameObject.GetComponentsInChildren<SpriteRenderer>();
+        foreach (var v in l) v.color = curContentsColor;
+    }
+
 
    
 }
