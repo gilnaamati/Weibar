@@ -4,43 +4,56 @@ using UnityEngine;
 
 public class CamScroller : MonoBehaviour
 {
-    public Vector2 scrollMargin = new Vector2(0.1f, 0.1f);
-    public Vector2 scrollSpeed = new Vector2(1,1);
-    public Vector2 curSpeed;
-    public Vector2 curSpeedTar;
-    public float speedLerp = 30;
-    public AnimationCurve marginCurve;
 
+    public float moveLerp = 10;
+    public Transform camLimiter;
+    public Transform camMoveBox;
+    Camera cam;
+    Vector2 vpSize;
+    Vector2 cornerMax;
+    Vector2 cornerMin;
+    Vector3 tarPos;
+
+    private void Awake()
+    {
+        cam = GetComponent<Camera>();
+        UpdateCameraScale();
+        tarPos = transform.position;
+        camMoveBox.gameObject.SetActive(false);
+    }
+
+    void UpdateCameraScale()
+    {
+        var trCorner = cam.ViewportToWorldPoint(new Vector2(1, 1));
+        var blCorner = cam.ViewportToWorldPoint(new Vector2(0, 0));
+        vpSize = new Vector2(trCorner.x - blCorner.x, trCorner.y - blCorner.y);
+        cornerMax.y = camLimiter.position.y + camLimiter.localScale.y * 0.5f - vpSize.y * 0.5f;
+        cornerMin.y = camLimiter.position.y - camLimiter.localScale.y * 0.5f + vpSize.y * 0.5f;
+        cornerMax.x = camLimiter.position.x + camLimiter.localScale.x * 0.5f - vpSize.x * 0.5f;
+        cornerMin.x = camLimiter.position.x - camLimiter.localScale.x * 0.5f + vpSize.x * 0.5f;
+    }
 
     void Update()
     {
-        var m = MouseData2D.Inst.mouseVPpos;
+        var m = MouseData2D.Inst.mouseWorldPos;
+        var boxCornerMax = new Vector2(camMoveBox.position.x + camMoveBox.localScale.x * 0.5f, camMoveBox.position.y + camMoveBox.localScale.y * 0.5f);
+        var boxCornerMin = new Vector2(camMoveBox.position.x - camMoveBox.localScale.x * 0.5f, camMoveBox.position.y - camMoveBox.localScale.y * 0.5f);
 
-        curSpeedTar = Vector2.zero;
+        if (m.x > boxCornerMax.x) tarPos.x = transform.position.x + m.x - boxCornerMax.x;
+        if (m.y > boxCornerMax.y) tarPos.y = transform.position.y + m.y - boxCornerMax.y;
+        if (m.x < boxCornerMin.x) tarPos.x = transform.position.x + (m.x - boxCornerMin.x);
+        if (m.y < boxCornerMin.y) tarPos.y = transform.position.y + (m.y - boxCornerMin.y);
 
-        if (m.x> 0 && m.x < scrollMargin.x) 
-        {     
-            curSpeedTar.x = -marginCurve.Evaluate(1 - (m.x / scrollMargin.x)) * scrollSpeed.x;
-        }
-        if (m.x < 1 && m.x > 1 - scrollMargin.x)
-        {
-            curSpeedTar.x = marginCurve.Evaluate((m.x + scrollMargin.x - 1) / scrollMargin.x) * scrollSpeed.x;
-        }
-        if (m.y > 0 && m.y < scrollMargin.y)
-        {
-            curSpeedTar.y = -marginCurve.Evaluate(1 - (m.y / scrollMargin.y)) * scrollSpeed.y;
-        }
-        if (m.y < 1 && m.y > 1 - scrollMargin.y)
-        {
-            curSpeedTar.y = marginCurve.Evaluate((m.y + scrollMargin.y - 1) / scrollMargin.y) * scrollSpeed.y;
-        }
-
-
+        if (tarPos.x > cornerMax.x) tarPos.x = cornerMax.x;
+        if (tarPos.y > cornerMax.y) tarPos.y = cornerMax.y;
+        if (tarPos.x < cornerMin.x) tarPos.x = cornerMin.x;
+        if (tarPos.y < cornerMin.y) tarPos.y = cornerMin.y;
     }
 
     private void FixedUpdate()
     {
-        curSpeed = Vector2.Lerp(curSpeed, curSpeedTar, speedLerp * Time.fixedDeltaTime);
-        transform.position += (Vector3)curSpeed;
+        transform.position = Vector3.Lerp(transform.position, tarPos, moveLerp * Time.fixedDeltaTime);
     }
+
+    
 }
