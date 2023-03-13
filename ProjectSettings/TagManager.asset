@@ -21,9 +21,9 @@ TagManager:
   - ItemPourCollider
   - OpenHand
   - ClosedHand
-  - PlayerCursor
-  - 
-  - 
+  - PlayerCursorItem
+  - CustomerTouchCollider
+  - PlayerCursorCustomer
   - 
   - 
   - 
@@ -42,6 +42,9 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Customers
+    uniqueID: 361189267
     locked: 0
   - name: Shelves
     uniqueID: 3834826151
@@ -63,4 +66,10 @@ TagManager:
     locked: 0
   - name: Colliders
     uniqueID: 3913116165
+    locked: 0
+  - name: Cursor
+    uniqueID: 2005512231
+    locked: 0
+  - name: SpeechBubbles
+    uniqueID: 3931821711
     locked: 0

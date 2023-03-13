@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -8,22 +7,23 @@ public class ItemHandler : MonoBehaviour
 {
     public static event Action<PickupModule, ItemBase> ItemInteractionEvent = (xxx, yyy) => { };
 
+    public static ItemHandler Inst;
+
     public List<Item2D> itemList = new List<Item2D>();
 
     int curMaskLayer = 0;
 
-    public List<ItemVisuals> itemVisualsList = new List<ItemVisuals>();
+    public List<spriteVisualSorter> itemVisualsList = new List<spriteVisualSorter>();
 
     int curMaxSortInd = 0;
 
     public List<ItemBase> itemHoverList = new List<ItemBase>();
 
     public PickupModule currentlyHeldModule;
-    
-
 
     private void Awake()
     {
+        Inst = this;
         SetItemSortVisuals();
         SetItemMaskIndexes();
         ItemBase.HoverEnterEvent += ItemBase_HoverEnterEvent;
@@ -77,7 +77,7 @@ public class ItemHandler : MonoBehaviour
 
     private void FixedUpdate()
     {
-        
+
     }
 
     void UpdateHoverList()
@@ -88,16 +88,14 @@ public class ItemHandler : MonoBehaviour
             return;
         }
         foreach (var v in itemHoverList) v.SetStateHover();
-        var topHoverItem = itemHoverList.OrderByDescending(x => x.GetComponentInChildren<ItemVisuals>().sortInd).First();
+        var topHoverItem = itemHoverList.OrderByDescending(x => x.GetComponentInChildren<spriteVisualSorter>().sortInd).First();
         topHoverItem.SetStateTopHover();
         ItemInteractionEvent(currentlyHeldModule, topHoverItem);
-
-
     }
 
     void SetItemSortVisuals()
     {
-        var l = GetComponentsInChildren<ItemVisuals>().ToList();
+        var l = GetComponentsInChildren<spriteVisualSorter>().ToList();
 
         foreach (var v in l)
         {
@@ -114,6 +112,6 @@ public class ItemHandler : MonoBehaviour
             v.SetMask(curMaskLayer);
             curMaskLayer++;
         }
-       
+
     }
 }
