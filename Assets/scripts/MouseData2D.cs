@@ -36,6 +36,8 @@ public class MouseData2D : MonoBehaviour
             MouseUpEvent();
         }
         
+        
+        
         var mousePos = Input.mousePosition;
         mouseWorldPos = cam.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, dist));
         mouseVPpos = cam.ScreenToViewportPoint(new Vector3(mousePos.x, mousePos.y, dist));

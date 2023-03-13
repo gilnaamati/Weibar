@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -5,6 +6,8 @@ using UnityEngine;
 
 public class Hand2D : MonoBehaviour
 {
+    public static event Action<string> HandDownEvent = (x) => { };
+    
     public static Hand2D Cursor;
     public string curKey;
     public PickupModule curItem;
@@ -32,6 +35,7 @@ public class Hand2D : MonoBehaviour
     private void MouseData2D_MouseDownEvent()
     {
         mouseDown = true;
+        HandDownEvent(curKey);
     }
 
     void Update()
