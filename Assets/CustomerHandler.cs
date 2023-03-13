@@ -11,6 +11,7 @@ public class CustomerHandler : MonoBehaviour
 
     public List<CustomerBase> hoverList= new List<CustomerBase>();
     public static CustomerHandler Inst;
+    public CustomerBase topHoverCustomer;
     int curMaxSortInd = 0;
     private void Awake()
     {
@@ -46,11 +47,13 @@ public class CustomerHandler : MonoBehaviour
     {
         if (hoverList.Count == 0)
         {
+            topHoverCustomer = null;
             return;
         }
         foreach (var v in hoverList) v.SetStateHover();
-        var topHoverItem = hoverList.OrderByDescending(x => x.GetComponentInChildren<spriteVisualSorter>().sortInd).First();
-        topHoverItem.SetStateTopHover();
+        topHoverCustomer = hoverList.OrderByDescending(x => x.GetComponentInChildren<spriteVisualSorter>().sortInd).First();
+        topHoverCustomer.SetStateTopHover();
+
     }
 
     private void MouseData2DOnMouseUpEvent()

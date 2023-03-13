@@ -9,6 +9,8 @@ public class ItemHandler : MonoBehaviour
 
     public static ItemHandler Inst;
 
+    public ItemBase topHoverItem;
+
     public List<Item2D> itemList = new List<Item2D>();
 
     int curMaskLayer = 0;
@@ -84,11 +86,12 @@ public class ItemHandler : MonoBehaviour
     {
         if (itemHoverList.Count == 0)
         {
+            topHoverItem = null;
             ItemInteractionEvent(currentlyHeldModule, null);
             return;
         }
         foreach (var v in itemHoverList) v.SetStateHover();
-        var topHoverItem = itemHoverList.OrderByDescending(x => x.GetComponentInChildren<spriteVisualSorter>().sortInd).First();
+        topHoverItem = itemHoverList.OrderByDescending(x => x.GetComponentInChildren<spriteVisualSorter>().sortInd).First();
         topHoverItem.SetStateTopHover();
         ItemInteractionEvent(currentlyHeldModule, topHoverItem);
     }

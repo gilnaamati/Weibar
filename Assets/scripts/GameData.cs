@@ -4,6 +4,7 @@ using UnityEngine;
 
 
 
+
 [CreateAssetMenu(menuName = "Config/GameData")]
 [System.Serializable]
 public class GameData : ScriptableObject
