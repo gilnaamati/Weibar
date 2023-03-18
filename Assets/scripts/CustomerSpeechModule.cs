@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Febucci.UI;
 using TMPro;
 using UnityEngine;
 
@@ -15,6 +16,8 @@ public class CustomerSpeechModule : MonoBehaviour
     public TalkState talkState;
 
     public TextMeshPro speechText;
+    TextAnimator textAnimator;
+    TextAnimatorPlayer textAnimatorPlayer;
     public SpriteRenderer speechBubble;
     public Vector2 bubbleMargins = new Vector2(0.2f, 0.2f);
     float lastTextTime;
@@ -24,24 +27,44 @@ public class CustomerSpeechModule : MonoBehaviour
 
     public Transform speechVisuals;
 
-    CustomerBrainModule brain;
-    
+    private CustomerBase customerBase;
 
     private void Awake()
     {
-        brain = GetComponent<CustomerBrainModule>();
-        SetStateSilent();
+        customerBase = GetComponent<CustomerBase>();
+        textAnimator = speechText.GetComponent<TextAnimator>();
+        textAnimatorPlayer = speechText.GetComponent<TextAnimatorPlayer>();
+       // SetStateSilent();
+    }
+
+    public void EntireTextShowed()
+    {
+        StartCoroutine(DisappearText(speechText.text.Length * customerBase.data.textWaitPerChar));
+    }
+
+    public void EntireTextDisappeared()
+    {
+        Debug.Log("f2");
+        speechVisuals.gameObject.SetActive(false);
+    }
+
+    IEnumerator DisappearText(float wait)
+    {
+        yield return new WaitForSeconds(1);
+        textAnimatorPlayer.StartDisappearingText();
+        yield return null;
     }
 
     public void SetSpeech(string speech)
     {
-        speechText.text = speech;
+        textAnimatorPlayer.ShowText(speech);
+        //speechText.text = speech;
         SetStateTalking();
     }
 
     void SetStateTalking()
     {
-        lastTextDur = (float)speechText.text.Length * brain.data.textWaitPerChar;
+        lastTextDur = (float)speechText.text.Length * customerBase.data.textWaitPerChar;
         lastTextTime = Time.time;
         talkState = TalkState.Talking;
         speechVisuals.gameObject.SetActive(true);
@@ -64,7 +87,7 @@ public class CustomerSpeechModule : MonoBehaviour
             UpdateBubbleVisuals();
             if (Time.time - lastTextTime > lastTextDur)
             {
-                SetStateSilent();
+             //   SetStateSilent();
             }
         }
     }

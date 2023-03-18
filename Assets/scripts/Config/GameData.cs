@@ -9,6 +9,8 @@ using UnityEngine;
 [System.Serializable]
 public class GameData : ScriptableObject
 {
+    
+    
     public List<LiquidData> LiquidDataList = new List<LiquidData>();
 
     

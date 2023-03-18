@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class CustomerBase : MonoBehaviour
 {
+    public CustomerData data;
     public static event Action<CustomerBase> HoverEnterEvent = (x) => { };
     public static event Action<CustomerBase> HoverExitEvent = (x) => { };
     public event Action<CustomerTouchState> TouchStateChangeEvent = (x) => { };

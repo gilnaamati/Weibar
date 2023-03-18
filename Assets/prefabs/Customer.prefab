@@ -1,5 +1,38 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5367941466273546186
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 414174047494643122}
+  m_Layer: 0
+  m_Name: BubbleVisuals
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &414174047494643122
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5367941466273546186}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 6045756625473106970}
+  - {fileID: 6045756625039273650}
+  m_Father: {fileID: 6045756623566905804}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6045756623566905805
 GameObject:
   m_ObjectHideFlags: 0
@@ -15,7 +48,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &6045756623566905804
 Transform:
   m_ObjectHideFlags: 0
@@ -28,9 +61,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 6045756625473106970}
-  - {fileID: 6045756625039273650}
   - {fileID: 6045756625131906387}
+  - {fileID: 414174047494643122}
   m_Father: {fileID: 6045756623955907638}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -157,6 +189,7 @@ GameObject:
   - component: {fileID: 6045756623970038423}
   - component: {fileID: 6045756623970038420}
   - component: {fileID: 6045756623970038422}
+  - component: {fileID: 1686594900374206068}
   m_Layer: 15
   m_Name: Customer
   m_TagString: Untagged
@@ -216,6 +249,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4eaefec94781ee4408298df4c324b75f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: 6bd4f296eccd68c4c8da30c9723c7fa7, type: 2}
   customerTouchState: 0
   debugText: {fileID: 6045756625113930820}
 --- !u!114 &6045756623970038422
@@ -235,7 +269,22 @@ MonoBehaviour:
   speechBubble: {fileID: 6045756625039273651}
   bubbleMargins: {x: 1, y: 0.25}
   minBubbleSize: {x: 2, y: 1}
-  speechVisuals: {fileID: 6045756623566905804}
+  speechVisuals: {fileID: 414174047494643122}
+--- !u!114 &1686594900374206068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6045756623970038426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55228da4de01248609d0d7db24a42be5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activeDrawerList:
+  - {fileID: 11400000, guid: 33afeb69d1ad34ba29429798bc3df69e, type: 2}
+  currentlyOpenDrawer: {fileID: 0}
 --- !u!1 &6045756624357022833
 GameObject:
   m_ObjectHideFlags: 0
@@ -378,11 +427,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6045756625039273648}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.41499996, y: -0.9950683, z: 0}
+  m_LocalPosition: {x: 0.41499996, y: -0.99506855, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6045756623566905804}
+  m_Father: {fileID: 414174047494643122}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6045756625039273651
@@ -642,7 +691,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6045756623566905804}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -711,7 +760,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Hey, you bastard, get me a vodka martin, PRONTO
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -796,7 +845,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   updateMode: 0
-  triggerAnimPlayerOnChange: 1
+  triggerAnimPlayerOnChange: 0
   effectIntensityMultiplier: 50
   appearancesContainer:
     tagsFallback_Appearances:
@@ -885,13 +934,37 @@ MonoBehaviour:
   disappearanceOrientation: 0
   onTextShowed:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6045756623970038422}
+        m_TargetAssemblyTypeName: CustomerSpeechModule, Assembly-CSharp
+        m_MethodName: EntireTextShowed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onTypewriterStart:
     m_PersistentCalls:
       m_Calls: []
   onTextDisappeared:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6045756623970038422}
+        m_TargetAssemblyTypeName: CustomerSpeechModule, Assembly-CSharp
+        m_MethodName: EntireTextDisappeared
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onCharacterVisible:
     m_PersistentCalls:
       m_Calls: []
@@ -1191,11 +1264,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6045756625473106971}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.93, y: -0.03, z: 0}
+  m_LocalPosition: {x: -2.93, y: -0.03000021, z: 0}
   m_LocalScale: {x: 1.6998985, y: 1.6998985, z: 1.6998985}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6045756623566905804}
+  m_Father: {fileID: 414174047494643122}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6045756625473106965
