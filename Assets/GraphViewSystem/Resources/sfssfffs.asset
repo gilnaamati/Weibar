@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d9e17f1d9593624480291f0344312e1, type: 3}
+  m_Name: sfssfffs
+  m_EditorClassIdentifier: 
+  NodeLinks:
+  - BaseNodeGuid: 29ecb96f-f4b0-4402-a594-76ef4daafdb9
+    PortName: Next
+    TargetNodeGuid: 85d752ad-3f35-43e9-891d-e540daa52f46
+  - BaseNodeGuid: 85d752ad-3f35-43e9-891d-e540daa52f46
+    PortName: Choice 0
+    TargetNodeGuid: 8a186342-8868-47b0-9436-54da9125a720
+  - BaseNodeGuid: 85d752ad-3f35-43e9-891d-e540daa52f46
+    PortName: Choice 1
+    TargetNodeGuid: ec0d0324-5b61-471c-9158-1994838120b8
+  - BaseNodeGuid: ec0d0324-5b61-471c-9158-1994838120b8
+    PortName: Choice 0
+    TargetNodeGuid: 7af7aa8d-27dd-4774-b543-57433dbbfeb0
+  - BaseNodeGuid: 7af7aa8d-27dd-4774-b543-57433dbbfeb0
+    PortName: Choice 0
+    TargetNodeGuid: 5ce6af53-eef4-4ee5-b338-f74822ebf176
+  - BaseNodeGuid: 7af7aa8d-27dd-4774-b543-57433dbbfeb0
+    PortName: Choice 1
+    TargetNodeGuid: 5ce6af53-eef4-4ee5-b338-f74822ebf176
+  - BaseNodeGuid: 8a186342-8868-47b0-9436-54da9125a720
+    PortName: Choice 0
+    TargetNodeGuid: 5ce6af53-eef4-4ee5-b338-f74822ebf176
+  DrawerNodeDatas:
+  - NodeGUID: 85d752ad-3f35-43e9-891d-e540daa52f46
+    DrawerText: Drawer Node
+    Position: {x: 231, y: -156}
+  - NodeGUID: ec0d0324-5b61-471c-9158-1994838120b8
+    DrawerText: Drawer Node
+    Position: {x: 543, y: 36}
+  - NodeGUID: 8a186342-8868-47b0-9436-54da9125a720
+    DrawerText: Drawer Node
+    Position: {x: 740, y: -156}
+  - NodeGUID: 7af7aa8d-27dd-4774-b543-57433dbbfeb0
+    DrawerText: Drawer Node
+    Position: {x: 826, y: 166}
+  - NodeGUID: 5ce6af53-eef4-4ee5-b338-f74822ebf176
+    DrawerText: Drawer Node
+    Position: {x: 1153, y: -79}

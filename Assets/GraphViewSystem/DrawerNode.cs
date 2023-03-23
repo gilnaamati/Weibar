@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
-public class DrawerNode : Node
+namespace GraphViewSystem
 {
-    public string GUID;
+    public class DrawerNode : Node
+    {
+        public string GUID;
 
-    public string DrawerText;
+        public string DrawerText;
 
-    public bool EntryPoint;
+        public bool EntryPoint;
+    }
 }
