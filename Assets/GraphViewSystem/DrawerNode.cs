@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace GraphViewSystem
 {
-    public class DrawerNode : Node
+    public class DrawerNode : UnityEditor.Experimental.GraphView.Node
     {
         public string GUID;
 

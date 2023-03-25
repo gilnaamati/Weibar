@@ -2,7 +2,7 @@ using UnityEditor.Experimental.GraphView;
 
 namespace DrawerSystem
 {
-    public class DrawerBaseNode : Node
+    public class DrawerBaseNode : UnityEditor.Experimental.GraphView.Node
     {
         public string GUID;
 
