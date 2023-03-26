@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -36,5 +37,55 @@ public class BehaviourTree : ScriptableObject
         nodes.Remove(node);
         AssetDatabase.RemoveObjectFromAsset(node);
         AssetDatabase.SaveAssets();
+    }
+
+    public void AddChild(Node parent, Node child)
+    {
+        DecoratorNode decorator = parent as DecoratorNode;
+        if (decorator != null)
+        {
+            decorator.child = child;
+        }
+
+        CompositeNode composite = parent as CompositeNode;
+        if (composite != null)
+        {
+            composite.children.Add( child);
+        }
+
+    }
+
+    public void RemoveChild(Node parent, Node child)
+    {
+        DecoratorNode decorator = parent as DecoratorNode;
+        if (decorator != null)
+        {
+            decorator.child = null;
+        }
+
+        CompositeNode composite = parent as CompositeNode;
+        if (composite != null)
+        {
+            composite.children.Remove(child);
+        }
+    }
+
+    public List<Node> GetChildren(Node parent)
+    {
+        List<Node> children = new List<Node>();
+        DecoratorNode decorator = parent as DecoratorNode;
+        if (decorator != null)
+        {
+            if (decorator.child != null)
+                children.Add(decorator.child);
+        }
+
+        CompositeNode composite = parent as CompositeNode;
+        if (composite != null)
+        {
+            return composite.children.ToList();
+        }
+
+        return children;
     }
 }
