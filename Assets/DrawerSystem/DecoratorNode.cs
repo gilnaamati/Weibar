@@ -4,20 +4,14 @@ using UnityEngine;
 
 public abstract class DecoratorNode : Node
 {
-    public Node child;
+    [HideInInspector]public Node child;
 
-    protected override void OnStart()
+    public override Node Clone()
     {
-        throw new System.NotImplementedException();
+        DecoratorNode node = Instantiate(this);
+        node.child = child.Clone();
+        return node;
     }
-
-    protected override void OnStop()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    protected override State OnUpdate()
-    {
-        throw new System.NotImplementedException();
-    }
+    
+   
 }

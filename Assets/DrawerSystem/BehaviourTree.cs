@@ -46,12 +46,19 @@ public class BehaviourTree : ScriptableObject
         {
             decorator.child = child;
         }
+        
+        RootNode rootNode = parent as RootNode;
+        if (rootNode != null)
+        {
+            rootNode.child = child;
+        }
 
         CompositeNode composite = parent as CompositeNode;
         if (composite != null)
         {
             composite.children.Add( child);
         }
+        
 
     }
 
@@ -67,6 +74,12 @@ public class BehaviourTree : ScriptableObject
         if (composite != null)
         {
             composite.children.Remove(child);
+        }
+        
+        RootNode rootNode = parent as RootNode;
+        if (rootNode != null)
+        {
+            rootNode.child = null;
         }
     }
 
@@ -85,7 +98,21 @@ public class BehaviourTree : ScriptableObject
         {
             return composite.children.ToList();
         }
+        
+        RootNode rootNode = parent as RootNode;
+        if (rootNode != null)
+        {
+            if (rootNode.child != null)
+                children.Add(rootNode.child);
+        }
 
         return children;
+    }
+
+    public BehaviourTree Clone()
+    {
+        var tree = Instantiate(this);
+        tree.rootNode = tree.rootNode.Clone();
+        return tree;
     }
 }
