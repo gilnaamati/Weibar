@@ -6,8 +6,11 @@ using UnityEditor.UIElements;
 
 public class GraphDataEditor : EditorWindow
 {
-    [MenuItem("Window/UI Toolkit/GraphDataEditor")]
-    public static void ShowExample()
+    GraphDataEditorView dataEditorView;
+    InspectorView inspectorView;
+
+    [MenuItem("Graph/GraphDataEditor")]
+    public static void OpenWindow()
     {
         GraphDataEditor wnd = GetWindow<GraphDataEditor>();
         wnd.titleContent = new GUIContent("GraphDataEditor");
@@ -18,20 +21,33 @@ public class GraphDataEditor : EditorWindow
         // Each editor window contains a root VisualElement object
         VisualElement root = rootVisualElement;
 
-        // VisualElements objects can contain other VisualElement following a tree hierarchy.
-        VisualElement label = new Label("Hello World! From C#");
-        root.Add(label);
-
         // Import UXML
         var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/GraphDataEditor/GraphDataEditor.uxml");
-        VisualElement labelFromUXML = visualTree.Instantiate();
-        root.Add(labelFromUXML);
+        visualTree.CloneTree(root);
 
         // A stylesheet can be added to a VisualElement.
         // The style will be applied to the VisualElement and all of its children.
         var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/GraphDataEditor/GraphDataEditor.uss");
-        VisualElement labelWithStyle = new Label("Hello World! With Style");
-        labelWithStyle.styleSheets.Add(styleSheet);
-        root.Add(labelWithStyle);
+        root.styleSheets.Add(styleSheet);
+
+        dataEditorView = root.Q<GraphDataEditorView>();
+        inspectorView = root.Q<InspectorView>();
+        dataEditorView.OnNodeSelected = OnNodeSelectionChanged;
+        OnSelectionChange();
+    }
+
+    private void OnSelectionChange()
+    {
+
+        NodeHolder nodeHolder = Selection.activeObject as NodeHolder;
+        if (nodeHolder && AssetDatabase.CanOpenAssetInEditor(nodeHolder.GetInstanceID()))
+        {
+            dataEditorView.PopulateView(nodeHolder);
+        }
+    }
+
+    void OnNodeSelectionChanged(BaseNodeView node)
+    {
+        inspectorView.UpdateSelection(node);
     }
 }

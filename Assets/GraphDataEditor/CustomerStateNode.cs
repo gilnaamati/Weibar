@@ -8,11 +8,10 @@ public class CustomerStateNode : DataNode
 {
     public string StartDialogue;
 
-    public override void Init(BaseNodeView _nodeView)
+    public override void Init()
     {
-        base.Init(_nodeView);
-
-        nodeView.CreateInputPort("EnterKeyWords");
-        nodeView.CreateOutputPort("ExitKeyWords");
+        base.Init();
+        CreateInputPort("EnterKeyWords");
+        CreateOutputPort("ExitKeyWords");
     }
 }

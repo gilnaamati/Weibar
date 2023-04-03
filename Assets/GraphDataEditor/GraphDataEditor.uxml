@@ -1,7 +1,9 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <ui:Label text="Hello World! From UXML" />
-    <SplitView>
-        <ui:VisualElement style="width: auto;" />
-        <ui:VisualElement style="flex-basis: auto;" />
+    <SplitView name="SplitView">
+        <ui:VisualElement name="Left" style="width: auto;" />
+        <ui:VisualElement name="Right" style="flex-basis: auto;">
+            <GraphDataEditorView focusable="true" style="flex-grow: 1;" />
+        </ui:VisualElement>
     </SplitView>
 </ui:UXML>

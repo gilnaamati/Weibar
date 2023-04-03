@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 [CreateAssetMenu()]
@@ -26,15 +27,50 @@ public class NodeHolder : MonoBehaviour
         AssetDatabase.SaveAssets();
     }
 
-    public void AddChild(BaseNode parent, BaseNode child)
+    public void AddChild(BaseNode parent, BaseNode child, string parentPortName, string childPortName)
     {
-       
+        BaseEdgeData edgeData = new BaseEdgeData
+        {
+            sourceNode = parent,
+            targetNode = child,
+            sourcePortName = parentPortName,
+            targetPortName = childPortName
+        };
 
+        var parentPortData = parent.outputPortList.First(x => x.PortName == parentPortName);
+        if (parentPortData == null) Debug.LogError("Can't find parent port!");
+        else parentPortData.edgeDataList.Add(edgeData);
+
+        var childPortData = child.inputPortList.First(x => x.PortName == childPortName);
+        if (childPortName == null) Debug.LogError("Can't find child port!");
+        else childPortData.edgeDataList.Add(edgeData);
     }
 
-    public void RemoveChild(BaseNode parent, BaseNode child)
+    public void RemoveChild(BaseNode parent, BaseNode child, string parentPortName, string childPortName)
     {
-     
+        var parentPortData = parent.outputPortList.First(x => x.PortName == parentPortName);
+        if (parentPortData == null)
+        {
+            Debug.LogError("Can't find parent port!");
+            return;
+        }
+        var childPortData = child.inputPortList.First(x => x.PortName == childPortName);
+        if (childPortName == null)
+        {
+            Debug.LogError("Can't find child port!");
+            return;
+        }
+ 
+        BaseEdgeData edgeData = parentPortData.edgeDataList.First(x => x.targetNode ==
+         child && x.targetPortName == childPortName);
+        if (edgeData == null)
+        {
+            Debug.LogError("Can't find edgeData!");
+            return;
+        }
+
+        parentPortData.edgeDataList.Remove(edgeData);
+        childPortData.edgeDataList.Remove(edgeData);
     }
 
     public List<BaseNode> GetChildren(BaseNode parent)

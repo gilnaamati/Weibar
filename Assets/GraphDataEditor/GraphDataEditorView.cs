@@ -9,7 +9,7 @@ using UnityEngine.UIElements;
 
 public class GraphDataEditorView : GraphView
 {
-    public Action<NodeView> OnNodeSelected;
+    public Action<BaseNodeView> OnNodeSelected;
     public new class UxmlFactory : UxmlFactory<GraphDataEditorView, GraphView.UxmlTraits> { };
     GraphDataEditor graphDataEditor;
     NodeHolder nodeHolder;
@@ -45,17 +45,22 @@ public class GraphDataEditorView : GraphView
 
         nodeHolder.nodes.ForEach(n =>
         {
-            var children = nodeHolder.GetChildren(n);
-            children.ForEach(c =>
+            var portDataList = n.outputPortList;
+          
+            portDataList.ForEach(p =>
             {
                 var parentView = FindNodeView(n);
-                var childView = FindNodeView(c);
-                var edge = parentView.outputPorts[0].ConnectTo(childView.inputPorts[0]);
-                AddElement(edge);
-
+                var portEdgeList = p.edgeDataList;
+                foreach (var e in portEdgeList)
+                {
+                    var outputPort = parentView.outputPorts.First(x => x.portName == e.sourcePortName);
+                    var childView = FindNodeView(e.targetNode);
+                    var inputPort = childView.inputPorts.First(x => x.portName == e.targetPortName);
+                    var edge = outputPort.ConnectTo(inputPort);
+                    AddElement(edge);
+                }
             });
         });
-
     }
 
     BaseNodeView FindNodeView(BaseNode node)
@@ -80,7 +85,9 @@ public class GraphDataEditorView : GraphView
                 {
                     BaseNodeView parentView = edge.output.node as BaseNodeView;
                     BaseNodeView childView = edge.input.node as BaseNodeView;
-                    nodeHolder.RemoveChild(parentView.node, childView.node);
+                    string parentPortName = edge.output.portName;
+                    string childPortName = edge.input.portName;
+                    nodeHolder.RemoveChild(parentView.node, childView.node, parentPortName, childPortName);
                 }
             });
         }
@@ -91,7 +98,9 @@ public class GraphDataEditorView : GraphView
             {
                 BaseNodeView parentView = edge.output.node as BaseNodeView;
                 BaseNodeView childView = edge.input.node as BaseNodeView;
-                nodeHolder.AddChild(parentView.node, childView.node);
+                string parentPortName = edge.output.portName;
+                string childPortName = edge.input.portName;
+                nodeHolder.AddChild(parentView.node, childView.node, parentPortName, childPortName);
             });
         }
         return graphViewChange;
@@ -111,13 +120,24 @@ public class GraphDataEditorView : GraphView
     void CreateNode(System.Type type)
     {
         BaseNode node = nodeHolder.CreateNode(type);
+        node.Init();
         CreateNodeView(node);
     }
 
-    void CreateNodeView(BaseNode node)
+    private BaseNodeView CreateNodeView(BaseNode node)
     {
         BaseNodeView nodeView = new BaseNodeView(node);
         nodeView.OnNodeSelected = OnNodeSelected;
+        foreach (var v in node.inputPortList)
+        {
+            nodeView.CreateInputPort(v.PortName);
+        }
+        foreach (var v in node.outputPortList)
+        {
+            nodeView.CreateOutputPort(v.PortName);
+        }
+
         AddElement(nodeView);
+        return nodeView;
     }
 }
