@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-6590464922321355700
+--- !u!114 &-8293446896439219026
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10,41 +10,69 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 108a0db073085594ba801a1a90bc2be3, type: 3}
-  m_Name: CustomerStateNode
+  m_Name: CustomerStateTalkNode
   m_EditorClassIdentifier: 
-  guid: 61a252ecfb80940b3be62f4813a6640d
-  position: {x: 0, y: 0}
-  inputPortList: []
-  outputPortList: []
-  StartDialogue: 
-  StartDialogueDelay: 0
---- !u!114 &-6278478238253359537
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 108a0db073085594ba801a1a90bc2be3, type: 3}
-  m_Name: CustomerStateNode
-  m_EditorClassIdentifier: 
-  guid: c40cc3441910941a2937a20e10da3e88
-  position: {x: 192, y: 182}
+  guid: 4b5bbdcd052a4442e961c21f6ccd9a4f
+  position: {x: 111.5, y: 254}
   inputPortList:
   - portName: EnterKeyWords
     edgeDataList: []
   outputPortList:
   - portName: ExitKeyWords
     edgeDataList:
-    - sourceNode: {fileID: -6278478238253359537}
+    - sourceNode: {fileID: -8293446896439219026}
       sourcePortName: ExitKeyWords
-      targetNode: {fileID: 224086201028967881}
+      targetNode: {fileID: -3579988881051312160}
+      targetPortName: SourceState
+  StartDialogue: Hey!
+  StartDialogueDelay: 0
+--- !u!114 &-6794050006983321629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 843ac602273704ce3b966b5bbf46833d, type: 3}
+  m_Name: KeyWordConnectorNode
+  m_EditorClassIdentifier: 
+  guid: 37ebd52b73a3a4ee294265c5596d041f
+  position: {x: 0, y: 0}
+  inputPortList: []
+  outputPortList: []
+  Keyword: 
+--- !u!114 &-3579988881051312160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 843ac602273704ce3b966b5bbf46833d, type: 3}
+  m_Name: KeyWordConnectorNode
+  m_EditorClassIdentifier: 
+  guid: cea9e53916d3e48cb9e2dd0ab754ac78
+  position: {x: 449, y: 254}
+  inputPortList:
+  - portName: SourceState
+    edgeDataList:
+    - sourceNode: {fileID: -8293446896439219026}
+      sourcePortName: ExitKeyWords
+      targetNode: {fileID: -3579988881051312160}
+      targetPortName: SourceState
+  outputPortList:
+  - portName: TargetState
+    edgeDataList:
+    - sourceNode: {fileID: -3579988881051312160}
+      sourcePortName: TargetState
+      targetNode: {fileID: -536149127702174993}
       targetPortName: EnterKeyWords
-  StartDialogue: fddfdgd
-  StartDialogueDelay: 55
---- !u!114 &-6257128861088745643
+  Keyword: Interact
+--- !u!114 &-536149127702174993
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -54,26 +82,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 108a0db073085594ba801a1a90bc2be3, type: 3}
-  m_Name: CustomerStateNode
+  m_Name: CustomerStateTalkNode
   m_EditorClassIdentifier: 
-  guid: 83c4296a25d17414f97e9a11942d2980
-  position: {x: 719, y: 194.5}
+  guid: edf01bc632de84db0a1322ec3b493882
+  position: {x: 754, y: 361}
   inputPortList:
   - portName: EnterKeyWords
     edgeDataList:
-    - sourceNode: {fileID: 224086201028967881}
-      sourcePortName: ExitKeyWords
-      targetNode: {fileID: -6257128861088745643}
+    - sourceNode: {fileID: -3579988881051312160}
+      sourcePortName: TargetState
+      targetNode: {fileID: -536149127702174993}
+      targetPortName: EnterKeyWords
+    - sourceNode: {fileID: -3579988881051312160}
+      sourcePortName: TargetState
+      targetNode: {fileID: -536149127702174993}
       targetPortName: EnterKeyWords
   outputPortList:
   - portName: ExitKeyWords
-    edgeDataList:
-    - sourceNode: {fileID: -6257128861088745643}
-      sourcePortName: ExitKeyWords
-      targetNode: {fileID: 2453490390480047818}
-      targetPortName: EnterKeyWords
+    edgeDataList: []
   StartDialogue: 
-  StartDialogueDelay: 10
+  StartDialogueDelay: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -87,13 +115,14 @@ MonoBehaviour:
   m_Name: New Node Holder 3
   m_EditorClassIdentifier: 
   nodes:
-  - {fileID: -6278478238253359537}
-  - {fileID: 224086201028967881}
-  - {fileID: -6257128861088745643}
-  - {fileID: 2453490390480047818}
-  - {fileID: 9116289376966250644}
-  - {fileID: -6590464922321355700}
---- !u!114 &224086201028967881
+  - {fileID: 747267259891683845}
+  - {fileID: 3358313551621077170}
+  - {fileID: 8997516725675606323}
+  - {fileID: -8293446896439219026}
+  - {fileID: -3579988881051312160}
+  - {fileID: -536149127702174993}
+  - {fileID: -6794050006983321629}
+--- !u!114 &747267259891683845
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -103,27 +132,53 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 108a0db073085594ba801a1a90bc2be3, type: 3}
-  m_Name: CustomerStateNode
+  m_Name: CustomerStateTalkNode
   m_EditorClassIdentifier: 
-  guid: 7340488e879a94bc691d7dbde2c5fba4
-  position: {x: 506, y: 52}
+  guid: 305a8054781c5423fae44305bfeebe18
+  position: {x: -27.292542, y: 5.719696}
+  inputPortList:
+  - portName: EnterKeyWords
+    edgeDataList: []
+  outputPortList:
+  - portName: ExitKeyWords
+    edgeDataList:
+    - sourceNode: {fileID: 747267259891683845}
+      sourcePortName: ExitKeyWords
+      targetNode: {fileID: 3358313551621077170}
+      targetPortName: EnterKeyWords
+  StartDialogue: 
+  StartDialogueDelay: 0
+--- !u!114 &3358313551621077170
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 108a0db073085594ba801a1a90bc2be3, type: 3}
+  m_Name: CustomerStateTalkNode
+  m_EditorClassIdentifier: 
+  guid: 74bacf21524074e34be5728d0281affb
+  position: {x: 363.64502, y: 49.130005}
   inputPortList:
   - portName: EnterKeyWords
     edgeDataList:
-    - sourceNode: {fileID: -6278478238253359537}
+    - sourceNode: {fileID: 747267259891683845}
       sourcePortName: ExitKeyWords
-      targetNode: {fileID: 224086201028967881}
+      targetNode: {fileID: 3358313551621077170}
       targetPortName: EnterKeyWords
   outputPortList:
   - portName: ExitKeyWords
     edgeDataList:
-    - sourceNode: {fileID: 224086201028967881}
+    - sourceNode: {fileID: 3358313551621077170}
       sourcePortName: ExitKeyWords
-      targetNode: {fileID: -6257128861088745643}
+      targetNode: {fileID: 8997516725675606323}
       targetPortName: EnterKeyWords
   StartDialogue: 
   StartDialogueDelay: 0
---- !u!114 &2453490390480047818
+--- !u!114 &8997516725675606323
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -133,39 +188,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 108a0db073085594ba801a1a90bc2be3, type: 3}
-  m_Name: CustomerStateNode
+  m_Name: CustomerStateTalkNode
   m_EditorClassIdentifier: 
-  guid: 6d57239624a1a411eb04cb21a50f60fb
-  position: {x: 946.06604, y: 375.94815}
+  guid: a26b1853760b24989b7567faadf9d0fe
+  position: {x: 789, y: 137}
   inputPortList:
   - portName: EnterKeyWords
     edgeDataList:
-    - sourceNode: {fileID: -6257128861088745643}
+    - sourceNode: {fileID: 3358313551621077170}
       sourcePortName: ExitKeyWords
-      targetNode: {fileID: 2453490390480047818}
+      targetNode: {fileID: 8997516725675606323}
       targetPortName: EnterKeyWords
-  outputPortList:
-  - portName: ExitKeyWords
-    edgeDataList: []
-  StartDialogue: 
-  StartDialogueDelay: 0
---- !u!114 &9116289376966250644
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 108a0db073085594ba801a1a90bc2be3, type: 3}
-  m_Name: CustomerStateNode
-  m_EditorClassIdentifier: 
-  guid: 3e3a0ecd8a556416cb8ac4459252bd60
-  position: {x: 55.184998, y: -65.000046}
-  inputPortList:
-  - portName: EnterKeyWords
-    edgeDataList: []
   outputPortList:
   - portName: ExitKeyWords
     edgeDataList: []

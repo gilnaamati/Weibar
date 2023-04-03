@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DataNode : BaseNode
+public class KeyWordConnectorNode : ConnectorNode
 {
-   
+    public string Keyword;
 }

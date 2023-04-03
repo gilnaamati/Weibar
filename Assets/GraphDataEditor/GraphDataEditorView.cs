@@ -104,7 +104,12 @@ public class GraphDataEditorView : GraphView
     {
         //base.BuildContextualMenu(evt);
         {
-            var types = TypeCache.GetTypesDerivedFrom<DataNode>();
+            var types = TypeCache.GetTypesDerivedFrom<CustomerStateNode>();
+            foreach (var type in types)
+            {
+                evt.menu.AppendAction($"[{type.BaseType.Name}] /{type.Name}", (a) => CreateNode(type));
+            }
+            types = TypeCache.GetTypesDerivedFrom<ConnectorNode>();
             foreach (var type in types)
             {
                 evt.menu.AppendAction($"[{type.BaseType.Name}] /{type.Name}", (a) => CreateNode(type));

@@ -19,6 +19,7 @@ public class BaseNodeView : UnityEditor.Experimental.GraphView.Node
         this.viewDataKey = node.guid;
         style.left = node.position.x;
         style.top = node.position.y;
+      
     }
 
     public override void SetPosition(Rect newPos)
@@ -57,6 +58,13 @@ public class BaseNodeView : UnityEditor.Experimental.GraphView.Node
         //make text background dark gray
         contentContainer.style.backgroundColor = new Color(0.2f, 0.2f, 0.2f, 1f);
         contentContainer.Add(textField);
+       
+        //if this is a connectorNode, make the text field the title
+        if (node is ConnectorNode)
+        {
+            textField.RegisterValueChangedCallback(evt => title = evt.newValue);
+        }
+        
         textField.RegisterValueChangedCallback(evt => node.UpdateField(textFieldName, evt.newValue));
         RefreshExpandedState();
         RefreshPorts();
