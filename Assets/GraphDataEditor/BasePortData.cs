@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [Serializable]
 public class BaseEdgeData
@@ -15,6 +16,6 @@ public class BaseEdgeData
 [Serializable]
 public class BasePortData
 {
-    public string PortName;
+    [FormerlySerializedAs("PortName")] public string portName;
     public List<BaseEdgeData> edgeDataList = new List<BaseEdgeData>();
 }

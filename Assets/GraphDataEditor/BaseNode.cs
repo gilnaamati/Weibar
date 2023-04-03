@@ -23,7 +23,7 @@ public abstract class BaseNode : ScriptableObject
        // nodeView.CreateInputPort(portName);
         inputPortList.Add(new BasePortData
         {
-            PortName = portName
+            portName = portName
         });
     }
 
@@ -32,7 +32,7 @@ public abstract class BaseNode : ScriptableObject
        // nodeView.CreateOutputPort(portName);
         outputPortList.Add(new BasePortData
         {
-            PortName = portName
+            portName = portName
         });
     }
 

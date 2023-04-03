@@ -38,24 +38,24 @@ public class NodeHolder : ScriptableObject
             targetPortName = childPortName
         };
 
-        var parentPortData = parent.outputPortList.First(x => x.PortName == parentPortName);
+        var parentPortData = parent.outputPortList.First(x => x.portName == parentPortName);
         if (parentPortData == null) Debug.LogError("Can't find parent port!");
         else parentPortData.edgeDataList.Add(edgeData);
 
-        var childPortData = child.inputPortList.First(x => x.PortName == childPortName);
+        var childPortData = child.inputPortList.First(x => x.portName == childPortName);
         if (childPortName == null) Debug.LogError("Can't find child port!");
         else childPortData.edgeDataList.Add(edgeData);
     }
 
     public void RemoveChild(BaseNode parent, BaseNode child, string parentPortName, string childPortName)
     {
-        var parentPortData = parent.outputPortList.First(x => x.PortName == parentPortName);
+        var parentPortData = parent.outputPortList.First(x => x.portName == parentPortName);
         if (parentPortData == null)
         {
             Debug.LogError("Can't find parent port!");
             return;
         }
-        var childPortData = child.inputPortList.First(x => x.PortName == childPortName);
+        var childPortData = child.inputPortList.First(x => x.portName == childPortName);
         if (childPortName == null)
         {
             Debug.LogError("Can't find child port!");

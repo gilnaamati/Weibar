@@ -2,10 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Edge = UnityEditor.Experimental.GraphView.Edge;
 
 public class GraphDataEditorView : GraphView
 {
@@ -33,27 +35,20 @@ public class GraphDataEditorView : GraphView
         graphViewChanged -= OnGraphViewChanged;
         DeleteElements(graphElements);
         graphViewChanged += OnGraphViewChanged;
-
-        //  if (nodeHolder.rootNode == null)
-        //  {
-        //       tree.rootNode = tree.CreateNode(typeof(RootNode)) as RootNode;
-        //       EditorUtility.SetDirty(tree);
-        //       AssetDatabase.SaveAssets();
-        //    }
-
+        
         nodeHolder.nodes.ForEach(n => CreateNodeView(n));
 
         nodeHolder.nodes.ForEach(n =>
         {
             var portDataList = n.outputPortList;
-          
+            var parentView = FindNodeView(n);
             portDataList.ForEach(p =>
             {
-                var parentView = FindNodeView(n);
                 var portEdgeList = p.edgeDataList;
                 foreach (var e in portEdgeList)
                 {
-                    var outputPort = parentView.outputPorts.First(x => x.portName == e.sourcePortName);
+                    var l = parentView.outputPorts.Where(x => x.portName == p.portName).ToList();
+                    var outputPort = parentView.outputPorts.First(x => x.portName == p.portName);
                     var childView = FindNodeView(e.targetNode);
                     var inputPort = childView.inputPorts.First(x => x.portName == e.targetPortName);
                     var edge = outputPort.ConnectTo(inputPort);
@@ -130,11 +125,11 @@ public class GraphDataEditorView : GraphView
         nodeView.OnNodeSelected = OnNodeSelected;
         foreach (var v in node.inputPortList)
         {
-            nodeView.CreateInputPort(v.PortName);
+            nodeView.CreateInputPort(v.portName);
         }
         foreach (var v in node.outputPortList)
         {
-            nodeView.CreateOutputPort(v.PortName);
+            nodeView.CreateOutputPort(v.portName);
         }
 
         AddElement(nodeView);

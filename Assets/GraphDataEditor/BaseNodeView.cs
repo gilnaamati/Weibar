@@ -8,8 +8,8 @@ public class BaseNodeView : UnityEditor.Experimental.GraphView.Node
 {
     public Action<BaseNodeView> OnNodeSelected;
     public BaseNode node;
-    public List<Port> inputPorts;
-    public List<Port> outputPorts;
+    public List<Port> inputPorts = new List<Port>();
+    public List<Port> outputPorts = new List<Port>();
 
     public BaseNodeView(BaseNode node)
     {
@@ -31,6 +31,7 @@ public class BaseNodeView : UnityEditor.Experimental.GraphView.Node
     {
         var input = InstantiatePort(Orientation.Horizontal, Direction.Input, cap, typeof(bool));
         input.portName = portName;
+        inputPorts.Add(input);
         inputContainer.Add(input);
     }
 
@@ -38,7 +39,13 @@ public class BaseNodeView : UnityEditor.Experimental.GraphView.Node
     {
         var output = InstantiatePort(Orientation.Horizontal, Direction.Output, cap, typeof(bool));
         output.portName = portName;
+        outputPorts.Add(output);
         outputContainer.Add(output);
+    }
+
+    public void CreateInputText(string text)
+    {
+       
     }
 
     public override void OnSelected()
