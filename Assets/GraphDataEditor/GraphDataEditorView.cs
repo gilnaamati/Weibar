@@ -140,4 +140,10 @@ public class GraphDataEditorView : GraphView
         AddElement(nodeView);
         return nodeView;
     }
+
+    public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
+    {
+        return ports.ToList().Where(endPort => endPort.direction != startPort.direction && endPort.node != startPort.node).ToList();
+
+    }
 }

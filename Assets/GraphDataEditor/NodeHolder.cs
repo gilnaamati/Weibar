@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 [CreateAssetMenu()]
-public class NodeHolder : MonoBehaviour
+public class NodeHolder : ScriptableObject
 {
     public List<BaseNode> nodes = new List<BaseNode>();
     // Start is called before the first frame update
@@ -80,4 +81,6 @@ public class NodeHolder : MonoBehaviour
 
         return children;
     }
+
+   
 }
