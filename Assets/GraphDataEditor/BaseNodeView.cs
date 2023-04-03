@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class BaseNodeView : UnityEditor.Experimental.GraphView.Node
 {
@@ -43,11 +44,24 @@ public class BaseNodeView : UnityEditor.Experimental.GraphView.Node
         outputContainer.Add(output);
     }
 
-    public void CreateInputText(string text)
+    public void CreateInputText(string textFieldName)
     {
-       
+        var textField = new TextField
+        {
+            multiline = true,
+            name = textFieldName,
+            value = "Write here",
+            label = textFieldName
+            
+        };
+        //make text background dark gray
+        contentContainer.style.backgroundColor = new Color(0.2f, 0.2f, 0.2f, 1f);
+        contentContainer.Add(textField);
+        textField.RegisterValueChangedCallback(evt => node.UpdateField(textFieldName, evt.newValue));
+        RefreshExpandedState();
+        RefreshPorts();
     }
-
+  
     public override void OnSelected()
     {
         base.OnSelected();

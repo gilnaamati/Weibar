@@ -107,7 +107,7 @@ public class GraphDataEditorView : GraphView
             var types = TypeCache.GetTypesDerivedFrom<DataNode>();
             foreach (var type in types)
             {
-                evt.menu.AppendAction($"[{type.BaseType.Name}] {type.Name}", (a) => CreateNode(type));
+                evt.menu.AppendAction($"[{type.BaseType.Name}] /{type.Name}", (a) => CreateNode(type));
             }
         }
     }
@@ -131,6 +131,22 @@ public class GraphDataEditorView : GraphView
         {
             nodeView.CreateOutputPort(v.portName);
         }
+       
+        //get all the string variables in the node
+        //and create a text field for each one
+
+        var fields = node.GetType().GetFields();
+        foreach (var field in fields)
+        {
+            if (field.FieldType == typeof(string) || field.FieldType == typeof(int) || field.FieldType == typeof(float))
+            {
+                //if they are not hidden in inspector
+                if (!Attribute.IsDefined(field, typeof(HideInInspector)))
+                nodeView.CreateInputText(field.Name);
+            }
+        }
+       
+       
 
         AddElement(nodeView);
         return nodeView;

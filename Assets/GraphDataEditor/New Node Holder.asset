@@ -1,0 +1,84 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8724584507659376801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 108a0db073085594ba801a1a90bc2be3, type: 3}
+  m_Name: CustomerStateNode
+  m_EditorClassIdentifier: 
+  guid: e9f8d622c64a944fca699e4ad69b661d
+  position: {x: 17, y: -35}
+  inputPortList:
+  - portName: EnterKeyWords
+    edgeDataList: []
+  outputPortList:
+  - portName: ExitKeyWords
+    edgeDataList: []
+  stringList:
+  - what1
+  - what2
+  StartDialogue: 
+--- !u!114 &-6761501490037849028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 108a0db073085594ba801a1a90bc2be3, type: 3}
+  m_Name: CustomerStateNode
+  m_EditorClassIdentifier: 
+  guid: db70610c789d64f72b80d62552e86739
+  position: {x: 0, y: 0}
+  inputPortList: []
+  outputPortList: []
+  stringList: []
+  StartDialogue: 
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5217dd67226bbc94fab6cad566b62793, type: 3}
+  m_Name: New Node Holder
+  m_EditorClassIdentifier: 
+  nodes:
+  - {fileID: -8724584507659376801}
+  - {fileID: 8459564294524347313}
+  - {fileID: -6761501490037849028}
+--- !u!114 &8459564294524347313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 108a0db073085594ba801a1a90bc2be3, type: 3}
+  m_Name: CustomerStateNode
+  m_EditorClassIdentifier: 
+  guid: f472c8335510c474abdf899eaa8a1353
+  position: {x: 310, y: -115.5}
+  inputPortList:
+  - portName: EnterKeyWords
+    edgeDataList: []
+  outputPortList:
+  - portName: ExitKeyWords
+    edgeDataList: []
+  stringList:
+  - what1
+  - what2
+  StartDialogue: 
