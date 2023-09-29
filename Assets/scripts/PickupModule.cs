@@ -23,7 +23,7 @@ public class PickupModule : MonoBehaviour
     private ItemBase itemBase;
     Rigidbody2D rb;
 
-    private CustomerDrinkModule curCustomer; //the customer currently holding me.
+    private CustomerHoldModule curCustomer; //the customer currently holding me.
 
     private void Awake()
     {
@@ -46,7 +46,7 @@ public class PickupModule : MonoBehaviour
         }
         else if (pickupState == PickupState.HeldByCustomer)
         {
-            transform.position = Vector3.Lerp(transform.position, curCustomer.CustomerHand.position - handle.localPosition,
+            transform.position = Vector3.Lerp(transform.position, curCustomer.hand.transform.position - handle.localPosition,
                Time.fixedDeltaTime * dragLerp);
         }
     }
@@ -59,7 +59,7 @@ public class PickupModule : MonoBehaviour
         SetStateHeldEvent();
     }
 
-    public void SetStateHeldByCustomer(CustomerDrinkModule c)
+    public void SetStateHeldByCustomer(CustomerHoldModule c)
     {
         curCustomer = c;
         pickupState = PickupState.HeldByCustomer;

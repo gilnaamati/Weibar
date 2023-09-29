@@ -24,8 +24,8 @@ public class CustomerHandler : MonoBehaviour
 
     private void Hand2D_ItemOfferedEvent(PickupModule obj)
     {
-        var c = topHoverCustomer.GetComponent<CustomerDrinkModule>();
-        c.SetOwnedDrink(obj);
+        var c = topHoverCustomer.GetComponent<CustomerHoldModule>();
+        c.SetOfferedItem(obj);
     }
 
     private void Customer_HoverExitEvent(CustomerBase obj)

@@ -5,6 +5,18 @@ using UnityEngine;
 
 public class CustomerBrainModule : MonoBehaviour
 {
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            GetComponent<CustomerHoldModule>().DecideToPickUpItem();
+        }
+    }
+
+
+    /*
+
     public CustomerData data;
 
     public List<BrainStateBase> stateList = new List<BrainStateBase>();
@@ -28,4 +40,5 @@ public class CustomerBrainModule : MonoBehaviour
     {
         foreach (var v in stateList) v.Init();
     }
+    */
 }

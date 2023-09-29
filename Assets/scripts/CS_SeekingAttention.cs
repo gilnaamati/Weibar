@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class CS_SeekingAttention : BrainStateBase
 {
-   
+   /*
 
     public float onHoverWaitDur = 0.25f;
 
@@ -34,6 +34,7 @@ public class CS_SeekingAttention : BrainStateBase
     {
         speech.SetSpeech(brain.data.Callouts.GetRandom());
     }
+   */
 
 
 }

@@ -139,8 +139,9 @@
     <Compile Include="Assets/scripts/Old/CMPosition.cs" />
     <Compile Include="Assets/scripts/Old/CMSitting.cs" />
     <Compile Include="Assets/scripts/Old/TestItem.cs" />
-    <Compile Include="Assets/CustomerDrinkModule.cs" />
+    <Compile Include="Assets/CustomerHoldModule.cs" />
     <Compile Include="Assets/CustomerPickupModule.cs" />
+    <Compile Include="Assets/CustHandModule.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets/Febucci/Text Animator/Example/Font/OFL.txt" />
