@@ -19,8 +19,13 @@ public class CustomerHandler : MonoBehaviour
         SetItemSortVisuals();
         CustomerBase.HoverEnterEvent += Customer_HoverEnterEvent;
         CustomerBase.HoverExitEvent += Customer_HoverExitEvent;
-        MouseData2D.MouseDownEvent += MouseData2DOnMouseDownEvent;
-        MouseData2D.MouseUpEvent += MouseData2DOnMouseUpEvent;
+        Hand2D.ItemOfferedEvent += Hand2D_ItemOfferedEvent;
+    }
+
+    private void Hand2D_ItemOfferedEvent(PickupModule obj)
+    {
+        var c = topHoverCustomer.GetComponent<CustomerDrinkModule>();
+        c.SetOwnedDrink(obj);
     }
 
     private void Customer_HoverExitEvent(CustomerBase obj)
@@ -55,18 +60,6 @@ public class CustomerHandler : MonoBehaviour
         topHoverCustomer.SetStateTopHover();
 
     }
-
-    private void MouseData2DOnMouseUpEvent()
-    {
-      
-    }
-
-    private void MouseData2DOnMouseDownEvent()
-    {
-        
-    }
-
-   
 
     void SetItemSortVisuals()
     {

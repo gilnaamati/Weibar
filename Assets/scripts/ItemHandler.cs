@@ -23,28 +23,30 @@ public class ItemHandler : MonoBehaviour
 
     public PickupModule currentlyHeldModule;
 
+    public PickupModule lastHeldModule; 
+
     private void Awake()
     {
         Inst = this;
         SetItemSortVisuals();
         SetItemMaskIndexes();
-        ItemBase.HoverEnterEvent += ItemBase_HoverEnterEvent;
-        ItemBase.HoverExitEvent += ItemBase_HoverExitEvent;
-        MouseData2D.MouseDownEvent += MouseData2DOnMouseDownEvent;
-        MouseData2D.MouseUpEvent += MouseData2DOnMouseUpEvent;
-
+        ItemBase.HoverEnterEvent += ItemBase_HoverEnterEvent; //follow all item hovers
+        ItemBase.HoverExitEvent += ItemBase_HoverExitEvent; 
+        Hand2D.HandDownEvent += HandDownEvent; //follow mouse actions
+        Hand2D.HandUpEvent += HandUpEvent;
     }
 
-    private void MouseData2DOnMouseUpEvent()
+    private void HandUpEvent(string s = "")
     {
         if (currentlyHeldModule != null)
         {
-            currentlyHeldModule.SetStateIdle();
+            currentlyHeldModule.SetStateIdle(); //drop item if holding it!
+            
             currentlyHeldModule = null;
         }
     }
 
-    private void MouseData2DOnMouseDownEvent()
+    private void HandDownEvent(string s = "")
     {
         if (itemHoverList.Count > 0)
         {
@@ -52,7 +54,7 @@ public class ItemHandler : MonoBehaviour
             var module = item.GetComponent<PickupModule>();
             if (module != null)
             {
-                module.SetStateHeld();
+                module.SetStateHeldByPlayer(); // this where the item is picked up!
                 currentlyHeldModule = module;
             }
         }

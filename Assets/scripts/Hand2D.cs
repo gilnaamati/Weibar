@@ -7,7 +7,8 @@ using UnityEngine;
 public class Hand2D : MonoBehaviour
 {
     public static event Action<string> HandDownEvent = (x) => { };
-    
+    public static event Action<string> HandUpEvent = (x) => { };
+    public static event Action<PickupModule> ItemOfferedEvent = (x) => { };
     public static Hand2D Cursor;
     public string curKey;
     public PickupModule curItem;
@@ -22,14 +23,19 @@ public class Hand2D : MonoBehaviour
     {
         MouseData2D.MouseDownEvent += MouseData2D_MouseDownEvent;
         MouseData2D.MouseUpEvent += MouseData2D_MouseUpEvent; 
-        customerH = FindObjectOfType<CustomerHandler>();
-        itemH = FindObjectOfType<ItemHandler>();
+        customerH = FindObjectOfType<CustomerHandler>(); // customer handler
+        itemH = FindObjectOfType<ItemHandler>(); // item handler
         Cursor = this;
     }
 
     private void MouseData2D_MouseUpEvent()
     {
+        if (curKey.Contains( "Offer"))
+        {
+            ItemOfferedEvent(curItem);
+        }
         mouseDown = false;
+        HandUpEvent(curKey);
     }
 
     private void MouseData2D_MouseDownEvent()

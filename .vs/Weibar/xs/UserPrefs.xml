@@ -1,21 +1,17 @@
 ﻿<Properties StartupConfiguration="{5BBAF5E5-394D-D5ED-782B-00A14EE00BC6}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/TestItem.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/scripts/PourModule.cs">
     <Files>
-      <File FileName="Assets/SMbrain.cs" Line="48" Column="1" />
-      <File FileName="Assets/SMdata.cs" Line="21" Column="5" />
-      <File FileName="Assets/CMPosition.cs" Line="9" Column="41" />
-      <File FileName="Assets/CMSitting.cs" Line="14" Column="9" />
-      <File FileName="Assets/PosMarker.cs" Line="41" Column="1" />
-      <File FileName="Assets/EntityHolder.cs" Line="15" Column="5" />
-      <File FileName="Assets/SMbase.cs" Line="19" Column="6" />
-      <File FileName="Assets/CMTask.cs" Line="11" Column="6" />
-      <File FileName="Assets/DrawerSystem/SequencerNode.cs" Line="35" Column="74" />
-      <File FileName="Assets/DrawerSystem/RootNode.cs" Line="1" Column="1" />
-      <File FileName="Assets/DrawerSystem/ActionNode.cs" Line="1" Column="1" />
-      <File FileName="Assets/DrawerSystem/WaitNode.cs" Line="1" Column="1" />
-      <File FileName="Assets/DrawerSystem/RepeatNode.cs" Line="1" Column="1" />
-      <File FileName="Assets/DrawerSystem/Node.cs" Line="1" Column="1" />
-      <File FileName="Assets/TestItem.cs" Line="7" Column="35" />
+      <File FileName="Assets/scripts/CustomerBase.cs" Line="25" Column="6" />
+      <File FileName="Assets/scripts/CustomerSpeechModule.cs" Line="56" Column="6" />
+      <File FileName="Assets/scripts/Config/CustomerData.cs" Line="16" Column="4" />
+      <File FileName="Assets/scripts/Hand2D.cs" Line="17" Column="11" />
+      <File FileName="Assets/scripts/CustomerHandler.cs" Line="47" Column="6" />
+      <File FileName="Assets/scripts/PickupModule.cs" Line="8" Column="42" />
+      <File FileName="Assets/scripts/ItemHandler.cs" Line="38" Column="45" />
+      <File FileName="Assets/prefabs/CustomerCabinetModule.cs" Line="30" Column="42" />
+      <File FileName="Assets/scripts/CustomerDrawer.cs" Line="16" Column="62" />
+      <File FileName="Assets/CustomerDrinkModule.cs" Line="12" Column="1" />
+      <File FileName="Assets/scripts/PourModule.cs" Line="51" Column="12" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">

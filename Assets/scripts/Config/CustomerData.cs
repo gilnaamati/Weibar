@@ -13,5 +13,5 @@ public class CustomerData : ScriptableObject
     [Header("Seeking Attention")]
     public List<string> Callouts = new List<string>();
 
-    public List<CustomerDrawer> DrawerList = new List<CustomerDrawer>();
+   
 }

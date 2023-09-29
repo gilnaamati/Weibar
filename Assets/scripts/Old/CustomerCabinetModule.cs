@@ -30,8 +30,6 @@ public class CustomerCabinetModule : MonoBehaviour
                OpenDrawer(l.GetRandom());
            }
        }
-       
-      
    }
 
    public void OpenDrawer(CustomerDrawer drawer)
