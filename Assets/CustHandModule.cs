@@ -37,7 +37,7 @@ public class CustHandModule : MonoBehaviour
             if (Vector3.Distance(transform.position, curTar.position) <= stopDist)
             {
                 arrivedAtTarget = true;
-                Debug.Log("Hand arrived at target");
+              //  Debug.Log("Hand arrived at target");
                 HandReachedTargetEvent();
                 return;
             }

@@ -13,6 +13,7 @@ public class CustomerMouthModule : MonoBehaviour
     }
 
     public event Action<MouthState> ChangeMouthStateEvent = (x) => { };
+    public event Action<float> SwallowEvent = (x) => { };
     public MouthState mouthState;
     public float mouthSize = 10;
     public float drinkSpeed = 6;
@@ -72,6 +73,7 @@ public class CustomerMouthModule : MonoBehaviour
         {
             if (Time.time - startSwallowTime > swallowDur)
             {
+                SwallowEvent(curMouthContents);
                 curMouthContents = 0;
                 SetStateIdle();
             }

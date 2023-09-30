@@ -43,9 +43,18 @@ public class CustUrge : MonoBehaviour
         UpdateBar();
     }
 
+    
+
+
     private void Update()
     {
-        curCount += increaseSpeed * Time.deltaTime;
+        ChangeUrgeAmount (increaseSpeed * Time.deltaTime);
+    }
+
+    public void ChangeUrgeAmount(float a)
+    {
+        curCount += a;
+
         if (curCount >= max)
         {
             if (!maxedOut) HitMax();

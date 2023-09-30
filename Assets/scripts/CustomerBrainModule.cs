@@ -16,12 +16,22 @@ public class CustomerBrainModule : MonoBehaviour
     CustomerHoldModule holdModule;
     public CustUrge dominantUrge;
 
+    public float drinkThirstRatio = 2;
+    CustomerMouthModule mouthModule;
+
     private void Awake()
     {
+        mouthModule = GetComponent<CustomerMouthModule>();
+        mouthModule.SwallowEvent += MouthModule_SwallowEvent;
         thirst.EnterThresholdEvent += Thirst_EnterThresholdEvent;
         thirst.ExitThresholdEvent += Thirst_ExitThresholdEvent;
         holdModule = GetComponent<CustomerHoldModule>();
         thirst.SetUrge(10);
+    }
+
+    private void MouthModule_SwallowEvent(float obj)
+    {
+        thirst.ChangeUrgeAmount(-drinkThirstRatio * obj);
     }
 
     private void Thirst_ExitThresholdEvent(UrgeThreshold obj)
@@ -30,6 +40,7 @@ public class CustomerBrainModule : MonoBehaviour
         {
             Debug.Log("canDrink threshold exited");
             dominantUrge = chill;
+            holdModule.SetDominantUrge("chill");
         }
     }
 

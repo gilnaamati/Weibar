@@ -1102,8 +1102,9 @@ MonoBehaviour:
   holdPos: {fileID: 4046776639115725683}
   idlePos: {fileID: 445448794272116895}
   handSpeed: 15
-  targetItem: {fileID: 0}
+  pickupTargetItem: {fileID: 0}
   urgeIndicator: {fileID: 9080589457700778296}
+  stopDrinkingAmount: 5
 --- !u!114 &2450550161423760636
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1119,6 +1120,7 @@ MonoBehaviour:
   chill: {fileID: 1590311740202456552}
   thirst: {fileID: 6996434157777772197}
   dominantUrge: {fileID: 0}
+  drinkThirstRatio: 2
 --- !u!114 &1949987411745383598
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1132,9 +1134,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mouthState: 0
-  mouthSize: 50
+  mouthSize: 30
   drinkSpeed: 100
-  swallowDur: 3
+  swallowDur: 1.25
   curMouthContents: 0
 --- !u!1 &6045756624357022833
 GameObject:
