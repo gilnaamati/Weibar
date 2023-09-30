@@ -5,8 +5,9 @@ using UnityEngine;
 
 public class PickupModule : MonoBehaviour
 {
-    public event Action SetStateHeldEvent = () => { };
+    public event Action SetStateHeldByPlayerEvent = () => { };
     public event Action SetStateIdleEvent = () => { };
+    public event Action<CustomerHoldModule> SetStateHeldByCustomerEvent = (c) => { };
 
     public enum PickupState
     {
@@ -25,11 +26,15 @@ public class PickupModule : MonoBehaviour
 
     private CustomerHoldModule curCustomer; //the customer currently holding me.
 
+    public ContentModule cm;
+    public PourTargetModule ptm;
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         itemBase = GetComponent<ItemBase>();
         SetStateIdle();
+        cm = GetComponent<ContentModule>();
+        ptm = GetComponent<PourTargetModule>();
     }
 
     private void OnItemPickedUpEvent(PickupModule obj)
@@ -56,7 +61,7 @@ public class PickupModule : MonoBehaviour
         pickupState = PickupState.HeldByPlayer;
         rb.bodyType = RigidbodyType2D.Kinematic;
         GetComponentInChildren<TouchCollidersHandlers>().ToggleColliders(false);
-        SetStateHeldEvent();
+        SetStateHeldByPlayerEvent();
     }
 
     public void SetStateHeldByCustomer(CustomerHoldModule c)
@@ -65,6 +70,7 @@ public class PickupModule : MonoBehaviour
         pickupState = PickupState.HeldByCustomer;
         rb.bodyType = RigidbodyType2D.Kinematic;
         GetComponentInChildren<TouchCollidersHandlers>().ToggleColliders(false);
+        SetStateHeldByCustomerEvent(c);
     }
 
     public void SetStateIdle()

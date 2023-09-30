@@ -48,7 +48,7 @@ public class PourModule : MonoBehaviour
     {
         cm = GetComponent<ContentModule>();
         pm = GetComponent<PickupModule>();
-        pm.SetStateHeldEvent += PourModule_SetStateHeldEvent;
+        pm.SetStateHeldByPlayerEvent += PourModule_SetStateHeldEvent;
         pm.SetStateIdleEvent += PourModule_SetStateIdleEvent;
         orgHandlePos = pm.handle.localPosition;
         ItemHandler.ItemInteractionEvent += ItemHandler_ItemInteractionEvent;
@@ -70,7 +70,7 @@ public class PourModule : MonoBehaviour
         }
         else
         {
-            if (cm.curContentsAmount > 0)
+            if (cm.curConAm > 0)
             {
                 SetStatePouring(arg2.GetComponent<PourTargetModule>());
             }
@@ -137,7 +137,7 @@ public class PourModule : MonoBehaviour
 
     void UpdateAngle()
     {
-        curPourAngle = Mathf.Lerp(angleWhenEmpty, angleWhenFull, cm.curContentsAmount / cm.maxContents)*pourDir;
+        curPourAngle = Mathf.Lerp(angleWhenEmpty, angleWhenFull, cm.curConAm / cm.maxContents)*pourDir;
         curHeldDeltaAngle = Mathf.DeltaAngle(curAngle, 0);
         curPourDeltaAngle = Mathf.DeltaAngle(curAngle, curPourAngle);
        
@@ -156,7 +156,7 @@ public class PourModule : MonoBehaviour
     {
         if (Mathf.Abs(curPourDeltaAngle) < anglePourMargin)
         {
-            if (cm.curContentsAmount > 0)
+            if (cm.curConAm > 0)
             {
                 UpdatePourVisuals(true);
                 TransferContents();
@@ -168,7 +168,7 @@ public class PourModule : MonoBehaviour
 
     void TransferContents()
     {
-        var transferAmount = Mathf.Min(cm.curContentsAmount, pourRate * Time.fixedDeltaTime);
+        var transferAmount = Mathf.Min(cm.curConAm, pourRate * Time.fixedDeltaTime);
         var removeList = cm.RemoveContents(transferAmount);
         if (curPourTarget != null)
         {
@@ -207,6 +207,7 @@ public class PourModule : MonoBehaviour
 
     public void SetStateHeld()
     {
+        if (curPourTarget != null) curPourTarget.SetStateIdle();
         curPourTarget = null;
         pourHandlePosTar = orgHandlePos;
         pourState = PourState.Held;
@@ -214,6 +215,7 @@ public class PourModule : MonoBehaviour
 
     public void SetStateIdle()
     {
+        if (curPourTarget != null) curPourTarget.SetStateIdle();
         pourHandlePosTar = orgHandlePos;
         pourState = PourState.Idle;
     }

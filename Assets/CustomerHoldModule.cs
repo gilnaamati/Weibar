@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,13 +13,14 @@ public class CustomerHoldModule : MonoBehaviour
       Holding,
       AboutToDrink,
       Drinking,
-      PickupUp,
+      PickingUp,
       PuttingDown,
       Idle
-
     };
 
-
+    public event Action<HandState> ChangeStateEvent = (x) => { };
+    public event Action<PickupModule> ItemPickedEvent = (x) => { };
+    public event Action<DrinkModule> StartDrinkingEvent = (x) => { };
     public HandState handState;
 
     public CustHandModule hand;
@@ -30,22 +32,60 @@ public class CustomerHoldModule : MonoBehaviour
 
     float waitBeforeFirstSiptime = 1;
     float pickupDist = 0.1f;
-    public List<Transform> ItemPositionList = new List<Transform>();
-    public Transform MouthPos;
-    public Transform HoldPos;
-    public float HandSpeed = 3;
-    public PickupModule targetItem;
+    public List<Transform> itemPosList = new List<Transform>();
+    public Transform mouthPos;
+    public Transform holdPos;
+    public Transform idlePos;
+    public float handSpeed = 15;
+    public PickupModule pickupTargetItem;
 
     string dominantUrge;
 
-
     public TextMeshPro urgeIndicator;
+
+    CustomerMouthModule mouthModule;
+
     private void Awake()
     {
         hand.HandReachedTargetEvent += CustomerHand_HandReachedTargetEvent;
+        mouthModule = GetComponent<CustomerMouthModule>();
+        mouthModule.ChangeMouthStateEvent += MouthModule_ChangeMouthStateEvent;
         SetStateIdle();
         SetDominantUrge("chill");
         
+    }
+
+    private void MouthModule_ChangeMouthStateEvent(CustomerMouthModule.MouthState obj)
+    {
+        if (obj == CustomerMouthModule.MouthState.Swallowing)
+        {
+            if (dominantUrge == "drink" && heldItem.cm.curConAm > 0)
+            {
+                SetStateHolding();
+            }
+            else
+            {
+                SetStatePuttingDown();
+            }
+           
+        }
+        else if (obj == CustomerMouthModule.MouthState.Idle)
+        {
+            if (handState == HandState.Holding)
+            {
+                if (dominantUrge == "drink")
+                {
+                    if (heldItem.cm.curConAm > 0)
+                    {
+                        SetStateAboutToDrink(heldItem);
+                    }
+                    else
+                    {
+                        SetStatePuttingDown();
+                    }
+                }
+            }
+        } 
     }
 
     public void SetDominantUrge(string s)
@@ -54,63 +94,83 @@ public class CustomerHoldModule : MonoBehaviour
         urgeIndicator.text = s;
     }
 
+    void SetStatePuttingDown()
+    {
+        SetState(HandState.PuttingDown);
+        hand.SetTarget(itemPosList.GetRandom());
+    }
+
     void SetStateAboutToPick(PickupModule t)
     {
-        targetItem = t;
+        pickupTargetItem = t;
         hand.SetTarget(t.transform);
-        handState = HandState.AboutToPick;
+        SetState(HandState.AboutToPick);
     }
     
     void SetStateHolding()
     {
-        handState = HandState.Holding;
-        hand.curTar = MouthPos;
+        SetState(HandState.Holding);
+        hand.SetTarget(holdPos);
     }
 
     void SetStateAboutToDrink(PickupModule t)
     {
-        Debug.Log("I'm in the state wtf");
         PickupItem(t);
-        handState = HandState.AboutToDrink;
-        hand.SetTarget(MouthPos);
+        SetState(HandState.AboutToDrink);
+        hand.SetTarget(mouthPos);
     }
 
     void SetStateDrinking()
     {
-        handState = HandState.Drinking;
+        SetState(HandState.Drinking);
+        StartDrinkingEvent(heldItem.GetComponent<DrinkModule>());
     }
 
     void SetStateIdle()
     {
-        handState = HandState.Idle;
-        hand.curTar = HoldPos;      
+        if (heldItem != null)
+        {
+            heldItem.SetStateIdle();
+            heldItem = null;
+        }
+        SetState(HandState.Idle);
+        hand.SetTarget(idlePos);
     }
 
     void SetStatePickingUp(PickupModule t)
     {
         PickupItem(t);
-        hand.SetTarget(HoldPos);
-        handState = HandState.PickupUp;
+        hand.SetTarget(holdPos);
+        SetState(HandState.PickingUp);
     }
 
     private void CustomerHand_HandReachedTargetEvent()
     {
-        if (handState == HandState.AboutToPick)
+        switch (handState)
         {
-            if (dominantUrge == "drink")
-            {
-                Debug.Log("about to set drink state");
-                SetStateAboutToDrink(targetItem);
-            }
-            else
-            {
-                SetStatePickingUp(targetItem);
-            }
-           
-        }
-        else if (handState == HandState.PickupUp)
-        {
-            SetStateHolding();
+            case HandState.AboutToDrink:
+                 SetStateDrinking();   
+                 break;
+            case HandState.AboutToPick:
+                if (dominantUrge == "drink")
+                {
+                    Debug.Log("about to set drink state");
+                    SetStateAboutToDrink(pickupTargetItem);
+                }
+                else
+                {
+                    SetStatePickingUp(pickupTargetItem);
+                }
+                break;
+            case HandState.PuttingDown:
+                SetStateIdle();
+                break;
+
+
+            case HandState.PickingUp:
+
+                SetStateHolding();
+                break;
         }
     }
 
@@ -149,7 +209,7 @@ public class CustomerHoldModule : MonoBehaviour
             case HandState.Idle:
                 if (dominantUrge == "drink")
                 {
-                    var d = ownedItemList.Where(x => x.GetComponent<KeywordModule>().keywordList.Contains("drink")).ToList();
+                    var d = ownedItemList.Where(x => x.GetComponent<KeywordModule>().keywordList.Contains("drink") && x.cm.curConAm > 0 && x.ptm.pourTargetState != PourTargetModule.PourTargetState.PouredInto).ToList();
                     if (d.Count > 0)
                     {
                         SetStateAboutToPick(d.GetRandom());
@@ -158,9 +218,21 @@ public class CustomerHoldModule : MonoBehaviour
                 break;
             case HandState.Drinking:
                 break;
+            case HandState.AboutToPick:
+                if (pickupTargetItem.ptm.pourTargetState != PourTargetModule.PourTargetState.Idle)
+                {
+                    SetStateIdle();
+                }
+
+                break;
+
         }
     }
 
-
-
+    void SetState(HandState s)
+    {
+        Debug.Log("handstate: " + s.ToString());
+        handState = s;
+        ChangeStateEvent(s);
+    }
 }

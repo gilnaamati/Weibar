@@ -98,7 +98,7 @@ public class Hand2D : MonoBehaviour
 
                     if (contentModule != null)
                     {
-                        if (contentModule.curContentsAmount > 0)
+                        if (contentModule.curConAm > 0)
                         {
                             SetKey("Offer");
                             return;

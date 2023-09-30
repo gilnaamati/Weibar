@@ -21,6 +21,8 @@ public class ContentModule : MonoBehaviour
 {
     public event Action<ContentModule, List<ContentPart>> FluidOverflowEvent = (xxx, yyy) => { };
 
+    public event Action ContainerEmptyEvent = () => { };
+
     public List<ContentPart> contentList = new List<ContentPart>();
 
     public List<Transform> itemCornerList = new List<Transform>();
@@ -29,7 +31,7 @@ public class ContentModule : MonoBehaviour
 
     public Color curContentsColor;
 
-    public float curContentsAmount;
+    public float curConAm;
     public float maxContents;
 
     private void Awake()
@@ -45,7 +47,7 @@ public class ContentModule : MonoBehaviour
 
     public List<ContentPart> RemoveContents(float a)
     {
-        var r = a / curContentsAmount;
+        var r = a / curConAm;
         var contentRemovalList = new List<ContentPart>();
         foreach (var v in contentList)
         {
@@ -66,13 +68,13 @@ public class ContentModule : MonoBehaviour
 
     void UpdateCurContents()
     {
-        curContentsAmount = contentList.Sum(x => x.amount);
-        if (curContentsAmount > maxContents)
+        curConAm = contentList.Sum(x => x.amount);
+        if (curConAm > maxContents)
         {
-            var overflowcontents = RemoveContents(curContentsAmount - maxContents);
+            var overflowcontents = RemoveContents(curConAm - maxContents);
             FluidOverflowEvent(this, overflowcontents);
         }
-        contentTM.text = Mathf.Floor(curContentsAmount).ToString();
+        contentTM.text = Mathf.Floor(curConAm).ToString();
         UpdateVisuals();
     }
 
@@ -96,7 +98,7 @@ public class ContentModule : MonoBehaviour
         var x = itemCornerList.Average(x => x.position.x);
         var maxY = itemCornerList.Max(x => x.position.y);
         var minY = itemCornerList.Min(x => x.position.y);
-        var y = Mathf.Lerp(minY, maxY, curContentsAmount / maxContents);
+        var y = Mathf.Lerp(minY, maxY, curConAm / maxContents);
         liquidVisuals.position = new Vector3(x, y, liquidVisuals.position.z);
         UpdateContentsColor();
 
@@ -108,7 +110,7 @@ public class ContentModule : MonoBehaviour
 
         foreach (var v in contentList)
         {
-            var r = (v.amount / curContentsAmount);
+            var r = (v.amount / curConAm);
             curContentsColor.a += v.liquid.liquidColor.a * r ;
             curContentsColor.r += v.liquid.liquidColor.r * r ;
             curContentsColor.b += v.liquid.liquidColor.b * r;
