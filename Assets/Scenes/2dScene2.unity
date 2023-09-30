@@ -873,6 +873,10 @@ PrefabInstance:
       propertyPath: curContents
       value: 250
       objectReference: {fileID: 0}
+    - target: {fileID: 5719722311747752789, guid: 90d94f7549067a8469caa9aa70926d75, type: 3}
+      propertyPath: keywordList.Array.data[0]
+      value: drink
+      objectReference: {fileID: 0}
     - target: {fileID: 8045155998077127689, guid: 90d94f7549067a8469caa9aa70926d75, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -2409,10 +2413,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 103264801}
     m_Modifications:
-    - target: {fileID: 4096283105042535605, guid: da262821bbf96c04f87b0a94e9b1ed47, type: 3}
-      propertyPath: stopDist
-      value: 0.01
-      objectReference: {fileID: 0}
     - target: {fileID: 6045756623970038421, guid: da262821bbf96c04f87b0a94e9b1ed47, type: 3}
       propertyPath: m_RootOrder
       value: 0

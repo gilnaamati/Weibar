@@ -3,17 +3,51 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+
+
+
 public class CustomerBrainModule : MonoBehaviour
 {
 
-    private void Update()
+
+
+    public CustUrge chill;
+    public CustUrge thirst;
+    CustomerHoldModule holdModule;
+    public CustUrge dominantUrge;
+
+    private void Awake()
     {
-        if (Input.GetKeyDown(KeyCode.K))
+        thirst.EnterThresholdEvent += Thirst_EnterThresholdEvent;
+        thirst.ExitThresholdEvent += Thirst_ExitThresholdEvent;
+        holdModule = GetComponent<CustomerHoldModule>();
+        thirst.SetUrge(10);
+    }
+
+    private void Thirst_ExitThresholdEvent(UrgeThreshold obj)
+    {
+        if (obj.thresholdName == "CanDrink")
         {
-            GetComponent<CustomerHoldModule>().DecideToPickUpItem();
+            Debug.Log("canDrink threshold exited");
+            dominantUrge = chill;
         }
     }
 
+    private void Thirst_EnterThresholdEvent(UrgeThreshold obj)
+    {
+        if (obj.thresholdName == "CanDrink")
+        {
+            Debug.Log("canDrink threshold reached");
+            dominantUrge = thirst;
+            holdModule.SetDominantUrge("drink");
+        }
+    }
+
+
+
+
+
+        
 
     /*
 

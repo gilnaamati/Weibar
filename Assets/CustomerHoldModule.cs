@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using TMPro;
 using UnityEngine;
 
 public class CustomerHoldModule : MonoBehaviour
@@ -29,16 +31,27 @@ public class CustomerHoldModule : MonoBehaviour
     float waitBeforeFirstSiptime = 1;
     float pickupDist = 0.1f;
     public List<Transform> ItemPositionList = new List<Transform>();
-    public Transform Mouth;
+    public Transform MouthPos;
     public Transform HoldPos;
     public float HandSpeed = 3;
     public PickupModule targetItem;
 
+    string dominantUrge;
+
+
+    public TextMeshPro urgeIndicator;
     private void Awake()
     {
         hand.HandReachedTargetEvent += CustomerHand_HandReachedTargetEvent;
-        SetStateIdle(); 
+        SetStateIdle();
+        SetDominantUrge("chill");
         
+    }
+
+    public void SetDominantUrge(string s)
+    {
+        dominantUrge = s;
+        urgeIndicator.text = s;
     }
 
     void SetStateAboutToPick(PickupModule t)
@@ -51,11 +64,15 @@ public class CustomerHoldModule : MonoBehaviour
     void SetStateHolding()
     {
         handState = HandState.Holding;
+        hand.curTar = MouthPos;
     }
 
-    void SetStateAboutToDrink()
+    void SetStateAboutToDrink(PickupModule t)
     {
+        Debug.Log("I'm in the state wtf");
+        PickupItem(t);
         handState = HandState.AboutToDrink;
+        hand.SetTarget(MouthPos);
     }
 
     void SetStateDrinking()
@@ -80,7 +97,16 @@ public class CustomerHoldModule : MonoBehaviour
     {
         if (handState == HandState.AboutToPick)
         {
-            SetStatePickingUp(targetItem);
+            if (dominantUrge == "drink")
+            {
+                Debug.Log("about to set drink state");
+                SetStateAboutToDrink(targetItem);
+            }
+            else
+            {
+                SetStatePickingUp(targetItem);
+            }
+           
         }
         else if (handState == HandState.PickupUp)
         {
@@ -116,6 +142,25 @@ public class CustomerHoldModule : MonoBehaviour
         return true;
     }
 
-    
-     
+    private void Update()
+    {
+        switch (handState)
+        {
+            case HandState.Idle:
+                if (dominantUrge == "drink")
+                {
+                    var d = ownedItemList.Where(x => x.GetComponent<KeywordModule>().keywordList.Contains("drink")).ToList();
+                    if (d.Count > 0)
+                    {
+                        SetStateAboutToPick(d.GetRandom());
+                    }
+                }
+                break;
+            case HandState.Drinking:
+                break;
+        }
+    }
+
+
+
 }

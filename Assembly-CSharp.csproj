@@ -142,6 +142,9 @@
     <Compile Include="Assets/CustomerHoldModule.cs" />
     <Compile Include="Assets/CustomerPickupModule.cs" />
     <Compile Include="Assets/CustHandModule.cs" />
+    <Compile Include="Assets/UrgeMeterBar.cs" />
+    <Compile Include="Assets/CustUrge.cs" />
+    <Compile Include="Assets/KeywordModule.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets/Febucci/Text Animator/Example/Font/OFL.txt" />
