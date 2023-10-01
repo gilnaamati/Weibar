@@ -106,7 +106,7 @@ SpriteRenderer:
   m_SortingLayer: 10
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 0, g: 0.96275425, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -210,6 +210,7 @@ GameObject:
   m_Component:
   - component: {fileID: 213481803143866020}
   - component: {fileID: 8295602905955566250}
+  - component: {fileID: 1903942069842242342}
   m_Layer: 0
   m_Name: meter
   m_TagString: Untagged
@@ -246,13 +247,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8013d4fdc81d64871b8f8913eb72e60c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thresholdVisuals: {fileID: 0}
+  thresholdVisuals: {fileID: 1135007737202432428}
   bgBar: {fileID: 1315725507961697197}
   fgBar: {fileID: 3638893919637520944}
-  letter: A
-  foregroundCol: {r: 1, g: 0, b: 0, a: 1}
-  backgroundCol: {r: 0.5471698, g: 0, b: 0, a: 1}
-  holder: {fileID: 0}
+  letter: J
+  foregroundCol: {r: 0, g: 0.96275425, b: 1, a: 1}
+  backgroundCol: {r: 0.05980634, g: 0, b: 0.54901963, a: 1}
+  letterCol: {r: 1, g: 0, b: 0, a: 1}
+  holder: {fileID: 3250031747834956055}
+  barValue: 1
+--- !u!114 &1903942069842242342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2914392303684235646}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e74d2605d21074cabb191a8a45f7de2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  updateBar: 1
 --- !u!1 &2937908387536297279
 GameObject:
   m_ObjectHideFlags: 0
@@ -391,7 +407,7 @@ SpriteRenderer:
   m_SortingLayer: 10
   m_SortingOrder: -10
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.4245283, g: 0, b: 0, a: 1}
+  m_Color: {r: 0.05980634, g: 0, b: 0.54901963, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -535,7 +551,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: A
+  m_text: J
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -544,8 +560,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278190335
+  m_fontColor: {r: 1, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

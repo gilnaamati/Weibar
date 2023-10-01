@@ -43,9 +43,6 @@ public class CustUrge : MonoBehaviour
         UpdateBar();
     }
 
-    
-
-
     private void Update()
     {
         ChangeUrgeAmount (increaseSpeed * Time.deltaTime);
