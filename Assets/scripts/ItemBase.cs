@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemBase : MonoBehaviour
+public class ItemBase : MonoBehaviour, IHoverable
 {
     public enum ItemTouchState
     {
@@ -16,10 +16,25 @@ public class ItemBase : MonoBehaviour
     
     
     public GameObject debugMarker;
+
+    
+
     public static event Action<ItemBase> HoverEnterEvent = (x) => { };
     public static event Action<ItemBase> HoverExitEvent = (x) => { };
 
+    
+    public GameObject GetGameobject()
+    {
+        return gameObject;
+    }
 
+    public GameObject hoverGameObject
+    {
+        get { return gameObject; }
+    }
+    public HoverManager.HoverLayer hoverLayer => hLayer;
+
+    public HoverManager.HoverLayer hLayer;
     private void Awake()
     {
         
