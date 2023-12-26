@@ -24,10 +24,10 @@ TagManager:
   - PlayerCursorItem
   - CustomerTouchCollider
   - PlayerCursorCustomer
-  - 
-  - 
-  - 
-  - 
+  - IInteractable
+  - IMovable
+  - IPourIntoable
+  - IPourable
   - 
   - 
   - 

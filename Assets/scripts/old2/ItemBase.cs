@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemBase : MonoBehaviour, IHoverable
+public class ItemBase : MonoBehaviour, IHoverableOld
 {
     public enum ItemTouchState
     {
@@ -32,9 +32,9 @@ public class ItemBase : MonoBehaviour, IHoverable
     {
         get { return gameObject; }
     }
-    public HoverManager.HoverLayer hoverLayer => hLayer;
+    public HoverManagerOld.HoverLayer hoverLayer => hLayer;
 
-    public HoverManager.HoverLayer hLayer;
+    public HoverManagerOld.HoverLayer hLayer;
     private void Awake()
     {
         
