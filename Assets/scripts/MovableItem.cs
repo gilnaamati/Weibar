@@ -33,7 +33,7 @@ public class MovableItem : MonoBehaviour, IHoverable, IInteractable, IMovable
         return _layerOrder;
     }
 
-    public void SetHeld()
+    public virtual void SetHeld()
     {
         physicalCollider.SetActive(false);
         _held = true;
