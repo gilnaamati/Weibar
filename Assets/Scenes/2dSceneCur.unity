@@ -195,7 +195,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 136094912}
   m_LocalRotation: {x: -0, y: -0, z: 0.79335344, w: 0.60876137}
-  m_LocalPosition: {x: 1.24, y: 1.4999999, z: 0}
+  m_LocalPosition: {x: 1.2059999, y: -0.05799997, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1291,7 +1291,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 894955683}
   m_LocalRotation: {x: -0, y: -0, z: 0.9659259, w: 0.2588192}
-  m_LocalPosition: {x: 0.61, y: 2.36, z: 0}
+  m_LocalPosition: {x: 0.576, y: 0.802, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2302,7 +2302,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a699cee0cf1db4dfcbf961d7a9c250f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  touchingCount: 0
+  physicalCollider: {fileID: 1544934500}
 --- !u!50 &1461958417
 Rigidbody2D:
   serializedVersion: 4
@@ -2336,7 +2336,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a699cee0cf1db4dfcbf961d7a9c250f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  touchingCount: 0
+  physicalCollider: {fileID: 0}
 --- !u!4 &1461958419
 Transform:
   m_ObjectHideFlags: 0
@@ -3307,10 +3307,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ba39971f5be140ed9c3917b5a4b134e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  touchingCount: 0
+  physicalCollider: {fileID: 1333139724}
   currentContents: 80
   maxContents: 100
-  totalPourDuration: 4
+  totalPourDuration: 8
   normalPourPosition: {fileID: 1192469658}
   endDownPourPosition: {fileID: 894955684}
   startPourPosition: {fileID: 136094913}

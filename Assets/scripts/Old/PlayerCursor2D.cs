@@ -51,6 +51,7 @@ public class PlayerCursor2D : MonoBehaviour, IInteractable
     void Update()
     {
         transform.position = MouseData2D.Inst.mouseWorldPos;
+        if (heldItem != null)
         heldItem.SetMovePosition(transform.position + heldItemOffset);
     }
 
