@@ -12,11 +12,19 @@ public class Bottle : MovableItem, IPourable
     public Transform endDownPourPosition;
     public Transform startPourPosition;
     public Transform visualContainer;
+    private LiquidContainerManager lcm;
     public float pourLerp = 20;
     [SerializeField]
     IPourIntoable currentPourIntoable;
     [SerializeField]
     bool _pouring;
+   
+    protected override void Awake()
+    {
+        base.Awake();
+        lcm = GetComponentInChildren<LiquidContainerManager>();
+    }
+
     public override void NewIinteractableTouching(IInteractable interactable)
     {
         if (_interactableTouchingList.Contains(interactable)) return;
@@ -53,20 +61,24 @@ public class Bottle : MovableItem, IPourable
         }
         else
         {
-            visualContainer.localPosition = Vector3.Lerp(visualContainer.localPosition, normalPourPosition.localPosition, pourLerp * Time.deltaTime);
-            visualContainer.localRotation = Quaternion.Lerp(visualContainer.localRotation, normalPourPosition.localRotation, pourLerp * Time.deltaTime);
+            if (lcm.UpdateNormalState())
+            {
+                var pourSpeed = maxContents/ totalPourDuration;
+                currentContents -= Time.deltaTime * pourSpeed;
+            }
         }
     }
     
     void Pour()
     {
-        var pourSpeed = maxContents/ totalPourDuration;
+        
         var curPourRatio = currentContents / maxContents;
-        var curPourPos = Vector3.Lerp(startPourPosition.localPosition, endDownPourPosition.localPosition, 1-curPourRatio);
-        var curPourRot = Quaternion.Lerp(startPourPosition.localRotation, endDownPourPosition.localRotation, 1-curPourRatio);
-        visualContainer.localPosition = Vector3.Lerp(visualContainer.localPosition, curPourPos, pourLerp * Time.deltaTime);
-        visualContainer.localRotation = Quaternion.Lerp(visualContainer.localRotation, curPourRot, pourLerp * Time.deltaTime);
-        currentContents -= Time.deltaTime * pourSpeed;
+        
+        if (lcm.UpdatePourState(curPourRatio))
+        {
+            var pourSpeed = maxContents/ totalPourDuration;
+            currentContents -= Time.deltaTime * pourSpeed;
+        }
         if (currentContents <= 0)
         {
             currentContents = 0;

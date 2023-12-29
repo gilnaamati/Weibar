@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +11,12 @@ public class MovableItem : MonoBehaviour, IHoverable, IInteractable, IMovable
     protected bool _held = false;
 
     public GameObject physicalCollider;
+
+    protected virtual void Awake()
+    {
+        
+    }
+
     public virtual void SetLayerOrder(int i)
     {
         this._layerOrder = i;
