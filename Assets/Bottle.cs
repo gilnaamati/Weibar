@@ -23,6 +23,7 @@ public class Bottle : MovableItem, IPourable
     {
         base.Awake();
         lcm = GetComponentInChildren<LiquidContainerManager>();
+        lcm.SetStartPositions(currentContents / maxContents);
     }
 
     public override void NewIinteractableTouching(IInteractable interactable)
@@ -61,7 +62,8 @@ public class Bottle : MovableItem, IPourable
         }
         else
         {
-            if (lcm.UpdateNormalState())
+            lcm.UpdateNormalState(currentContents / maxContents);
+            if (lcm.ComparePourAngle(currentContents / maxContents))
             {
                 var pourSpeed = maxContents/ totalPourDuration;
                 currentContents -= Time.deltaTime * pourSpeed;
@@ -71,14 +73,13 @@ public class Bottle : MovableItem, IPourable
     
     void Pour()
     {
-        
-        var curPourRatio = currentContents / maxContents;
-        
-        if (lcm.UpdatePourState(curPourRatio))
+        lcm.UpdatePourState(currentContents / maxContents);
+        if (lcm.ComparePourAngle(currentContents / maxContents))
         {
             var pourSpeed = maxContents/ totalPourDuration;
             currentContents -= Time.deltaTime * pourSpeed;
         }
+        
         if (currentContents <= 0)
         {
             currentContents = 0;
