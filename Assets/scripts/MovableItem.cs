@@ -39,7 +39,7 @@ public class MovableItem : MonoBehaviour, IHoverable, IInteractable, IMovable
         _held = true;
     }
 
-    public void SetNotHeld()
+    public virtual void SetNotHeld()
     {
         physicalCollider.SetActive(true);
         _held = false;

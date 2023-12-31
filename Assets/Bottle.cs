@@ -38,6 +38,13 @@ public class Bottle : MovableItem, IPourable
         }
     }
     
+    public override void SetNotHeld()
+    {
+        base.SetNotHeld();
+        lcm.SetDropped();
+        StopPouring();
+    }
+    
     public override void NewInteractableNotTouching(IInteractable interactable)
     {
         base.NewInteractableNotTouching(interactable);

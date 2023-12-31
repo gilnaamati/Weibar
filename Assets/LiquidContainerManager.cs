@@ -15,15 +15,22 @@ public class LiquidContainerManager : MonoBehaviour
     public Transform startLiquidPourPos;
     public Transform liquidVisualContainer;
     public float pourLerp = 10;
+    public float stopPourLerp = 5;
     private float lastPourAngleZ = 0;
     public float PourAngleThreshold = 2;
 
+    private bool isHeld = false;
     private void Awake()
     {
         lastPourAngleZ = Quaternion.Lerp(startPourPosition.localRotation, endDownPourPosition.localRotation, 0).eulerAngles.z;
         
     }
 
+    public void SetDropped()
+    {
+        isHeld = false;
+    }
+    
     public void SetStartPositions(float curPourRatio)
     {
         liquidVisualContainer.localPosition = Vector3.Lerp(normalLiquidFullPos.localPosition, normalLiquidEmptyPos.localPosition, 1-curPourRatio);
@@ -34,6 +41,7 @@ public class LiquidContainerManager : MonoBehaviour
     
     public void UpdatePourState(float curPourRatio)
     {
+        isHeld = true;
         var curBottlePourPos = Vector3.Lerp(startPourPosition.localPosition, endDownPourPosition.localPosition, 1-curPourRatio);
         var curBottlePourRot = Quaternion.Lerp(startPourPosition.localRotation, endDownPourPosition.localRotation, 1-curPourRatio);
         visualContainer.localPosition = Vector3.Lerp(visualContainer.localPosition, curBottlePourPos, pourLerp * Time.deltaTime);
@@ -47,11 +55,14 @@ public class LiquidContainerManager : MonoBehaviour
 
     public void UpdateNormalState(float curPourRatio)
     {
+        
+        var curLerp = stopPourLerp;
+        if (!isHeld) curLerp = pourLerp;
         var curLiquidNormalPos = Vector3.Lerp(normalLiquidFullPos.localPosition, normalLiquidEmptyPos.localPosition, 1-curPourRatio);
         liquidVisualContainer.localPosition = Vector3.Lerp(liquidVisualContainer.localPosition, curLiquidNormalPos,
-            pourLerp * Time.deltaTime);
-        visualContainer.localPosition = Vector3.Lerp(visualContainer.localPosition, normalPourPosition.localPosition, pourLerp * Time.deltaTime);
-        visualContainer.localRotation = Quaternion.Lerp(visualContainer.localRotation, normalPourPosition.localRotation, pourLerp * Time.deltaTime);
+            curLerp * Time.deltaTime);
+        visualContainer.localPosition = Vector3.Lerp(visualContainer.localPosition, normalPourPosition.localPosition, curLerp * Time.deltaTime);
+        visualContainer.localRotation = Quaternion.Lerp(visualContainer.localRotation, normalPourPosition.localRotation, curLerp * Time.deltaTime);
     }
 
     
