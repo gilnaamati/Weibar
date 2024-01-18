@@ -28,8 +28,8 @@ TagManager:
   - IMovable
   - IPourIntoable
   - IPourable
-  - 
-  - 
+  - Liq3D
+  - Bot3D
   - 
   - 
   - 
