@@ -95,13 +95,17 @@
      <Compile Include="Assets/scripts/Config/CustomerData.cs" />
      <Compile Include="Assets/old/GraphViewSystem/DrawerNode.cs" />
      <Compile Include="Assets/old/DrawerSystem/DrawerBaseNodeData.cs" />
+     <Compile Include="Assets/Mover3d.cs" />
+     <Compile Include="Assets/SpawnerActivator.cs" />
      <Compile Include="Assets/scripts/old2/UrgeEngine.cs" />
      <Compile Include="Assets/old/PlayerFingers.cs" />
+     <Compile Include="Assets/InsideCubeSpawner.cs" />
      <Compile Include="Assets/old/DrawerSystem/NodeView.cs" />
      <Compile Include="Assets/old/DrawerSystem/SequencerNode.cs" />
      <Compile Include="Assets/scripts/Old/SMTest.cs" />
      <Compile Include="Assets/old/GraphViewSystem/RunTime/GraphSaveUtllity.cs" />
      <Compile Include="Assets/old/DrawerSystem/ActionNode.cs" />
+     <Compile Include="Assets/LiquidSimTut/FluidSim.cs" />
      <Compile Include="Assets/scripts/old2/CustHandModule.cs" />
      <Compile Include="Assets/scripts/IPourable.cs" />
      <Compile Include="Assets/scripts/Utils/Extensions/ListGetExtensions.cs" />
@@ -128,6 +132,7 @@
      <Compile Include="Assets/old/DrawerSystem/WaitNode.cs" />
      <Compile Include="Assets/scripts/Old/PlayerCursor2D.cs" />
      <Compile Include="Assets/old/DrawerSystem/DecoratorNode.cs" />
+     <Compile Include="Assets/PhysicsHelperBaby.cs" />
      <Compile Include="Assets/scripts/old2/CustomerMouthModule.cs" />
      <Compile Include="Assets/scripts/old2/CustomerBase.cs" />
      <Compile Include="Assets/scripts/IInteractable.cs" />
@@ -147,10 +152,7 @@
      <Compile Include="Assets/scripts/MouseData2D.cs" />
      <Compile Include="Assets/scripts/Old/CustomerCabinetModule.cs" />
      <Compile Include="Assets/old/InputListener.cs" />
-     <Compile Include="Assets/Mover3d.cs" />
-     <Compile Include="Assets/InsideCubeSpawner.cs" />
-     <Compile Include="Assets/SpawnerActivator.cs" />
-     <Compile Include="Assets/PhysicsHelperBaby.cs" />
+     <Compile Include="Assets/FluidSimActivator.cs" />
      <Folder Include="Assets" />
      <None Include="Assets/Febucci/Text Animator/Example/Font/OFL.txt" />
      <None Include="Assets/TextMesh Pro/Shaders/TMPro.cginc" />
@@ -171,6 +173,7 @@
      <Folder Include="Assets/TextMesh Pro/Resources" />
      <Folder Include="Assets/Febucci/Text Animator/Scripts" />
      <Folder Include="Assets/scripts/Utils" />
+     <Folder Include="Assets/Resources" />
      <Folder Include="Assets/Febucci/Text Animator/Example" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Surface-Mobile.shader" />
      <Folder Include="Assets/Febucci/Text Animator/Extra" />
@@ -198,6 +201,7 @@
      <Folder Include="Assets/scripts/Utils/Extensions" />
      <Folder Include="Assets/Config/Customers" />
      <Folder Include="Assets/old" />
+     <Folder Include="Assets/LiquidSimTut" />
      <None Include="Assets/TextMesh Pro/Resources/LineBreaking Following Characters.txt" />
      <None Include="Assets/old/DrawerSystem/BehaviourTreeEditor.uss" />
      <Folder Include="Assets/Febucci/Text Animator/Example/Font" />
